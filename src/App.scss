@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+.ant-picker {
+    border-color: #7f56d9 !important;
+    background: #7f56d9 !important;
+    .ant-picker-input {
+        cursor: pointer;
+        input::placeholder {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        input {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        path {
+            fill: white;
+        }
+    }
+}
