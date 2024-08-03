@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Login.module.scss";
 import PopUp from "../../components/PopUp/PopUp";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth, fetchAuthMe } from "../../store/slices/Admin.slice";
 
@@ -42,7 +42,7 @@ const Login = () => {
       navigate('/')
     }
   }, [admin]);
-  
+
   return (
     <>
       <PopUp

@@ -35,8 +35,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 20px;
-    
+    margin-top: 30px;
+    .ant-select-selector {
+        padding-right: 20px;
+    }
+
     h2 {
         font-size: 18px;
         font-weight: 500;
@@ -60,7 +63,7 @@
 }
 
 .searchBar {
-    width: 34%;
+    width: 40%;
     input {
         outline: none;
         font-size: 16px;

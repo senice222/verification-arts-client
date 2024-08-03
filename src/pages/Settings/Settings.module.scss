@@ -185,3 +185,10 @@
         }
     }
 }
+.itemsPencil {
+    display: flex;
+    gap: 10px;
+    svg {
+        cursor: pointer;
+    }
+}

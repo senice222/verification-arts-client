@@ -1,6 +1,66 @@
+.DetailedApplication {
+    width: 100%;
+    h2 {
+        font-weight: 600;
+        font-size: 18px;
+        color: #101828;
+    }
+
+}
+.topContainer {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E4E7EC;
+    h1 {
+        color: #101828;
+        font-weight: 600;
+        font-size: 30px;
+    }
+
+}
+.company {
+    margin-top: 35px;
+    border: 1px solid #E4E7EC;
+    background-color: #F9FAFB;
+    padding: 20px 24px;
+    border-radius: 12px;
+    display: flex;
+    gap: 50px;
+    .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .name {
+        font-weight: 500;
+        font-size: 14px;
+        color: #475467;
+    }
+    .linkBlock {
+        cursor: pointer;
+        align-items: center;
+        display: flex;
+        .companyName {
+            color: #6941C6;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        svg {
+            margin-left: 4px;
+        }
+        .dateWrapper {
+            margin-top: 5px;
+            cursor: pointer;
+        }
+    }
+}
+
 .wrapper {
-    margin-left: 30px;
-    width: 97%;
     margin-top: 20px;
     .topDiv {
         width: 90%;
@@ -8,7 +68,7 @@
         border-bottom: 1px solid #e4e7ec;
         h2 {
             font-weight: 600;
-            font-size: 30px;
+            font-size: 18px;
             color: #101828;
             text-align: left;
         }
@@ -36,7 +96,6 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    
     h2 {
         font-size: 18px;
         font-weight: 500;
@@ -60,7 +119,6 @@
 }
 
 .searchBar {
-    width: 34%;
     input {
         outline: none;
         font-size: 16px;
@@ -74,6 +132,25 @@
         border: 1px solid #ccc;
         box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.0509803922);
         border-radius: 5px;
+    }
+}
+.date {
+    background: #FFFFFF;
+    color: #344054;
+    width: 155px;
+    height: 40px;
+    border: 1px solid #D0D5DD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    gap: 5px;
+    svg {
+        path {
+            fill: black;
+        }
     }
 }
 
@@ -111,6 +188,7 @@
                 cursor: pointer;
                 border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
             }
+        
         }
         p {
             font-size: 14px;

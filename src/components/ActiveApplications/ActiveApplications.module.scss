@@ -1,6 +1,6 @@
 .wrapper {
     margin-left: 30px;
-    width: 90%;
+    width: 97%;
     margin-top: 20px;
     .topDiv {
         width: 90%;
@@ -16,7 +16,7 @@
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     // margin: 0 auto;
     border: 1px solid #eaecf0;
     box-shadow: 0px 1px 2px 0px #1018280d;
@@ -29,30 +29,30 @@
     &::-webkit-scrollbar {
         width: 0;
     }
+}
 
-    .topWrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
+.topWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    h2 {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 28px;
+        text-align: left;
+        color: #101828;
+    }
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
         h2 {
-            font-size: 18px;
-            font-weight: 500;
-            line-height: 28px;
-            text-align: left;
-            color: #101828;
+            margin-bottom: 10px;
         }
-        @media (max-width: 600px) {
-            flex-direction: column;
-            align-items: flex-start;
-            h2 {
-                margin-bottom: 10px;
-            }
-            .searchBar {
+        .searchBar {
+            width: 100%;
+            input {
                 width: 100%;
-                input {
-                    width: 100%;
-                }
             }
         }
     }
@@ -80,8 +80,14 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     font-weight: 500;
-    margin-top: 20px;
-    
+    margin-top: 20px;   
+    thead {
+        tr {
+            .thRight {
+                text-align: right;
+            }
+        }
+    }
     th,
     td {
         padding: 10px;
@@ -166,7 +172,14 @@
         cursor: pointer;
         margin-top: 3px;
     }
-
+    
     tbody {
+        .flexEnd {
+            text-align: right;
+            div {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
     }
 }

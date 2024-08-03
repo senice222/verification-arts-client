@@ -4,13 +4,16 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Login from "./pages/Login/Login";
-import Panel from "./pages/Panel/Panel";
 import { Provider } from "react-redux";
 import PanelLayout from "./Layout/PanelLayout/PanelLayout.jsx";
 import { store } from "./store/store";
 import ActiveApplications from "./components/ActiveApplications/ActiveApplications";
 import DetailedApplication from './pages/DetailedApplication/DetailedApplication'
 import FinishedApplications from "./components/FinishedApplications/FinishedApplications";
+import Companies from "./pages/Companies/Companies.jsx";
+import AllApplications from "./pages/AllApplications/AllApplications.jsx";
+import DetailedCompany from "./pages/DetailedCompany/DetailedCompany.jsx";
+import Settings from "./pages/Settings/Settings.jsx";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -27,6 +30,22 @@ const router = createBrowserRouter([
       {
         path: "/finished",
         element: <FinishedApplications />,
+      },
+      {
+        path: "/all-applications",
+        element: <AllApplications />,
+      },
+      {
+        path: "/companies",
+        element: <Companies />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
+      },
+      {
+        path: "/companies/:id",
+        element: <DetailedCompany />,
       },
       {
         path: "/application/:id",

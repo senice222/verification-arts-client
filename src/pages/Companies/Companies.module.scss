@@ -3,7 +3,7 @@
     width: 97%;
     margin-top: 20px;
     .topDiv {
-        width: 90%;
+        width: 100%;
         padding-bottom: 15px;
         border-bottom: 1px solid #e4e7ec;
         h2 {
@@ -36,7 +36,6 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    
     h2 {
         font-size: 18px;
         font-weight: 500;
@@ -60,7 +59,7 @@
 }
 
 .searchBar {
-    width: 34%;
+    width: 25%;
     input {
         outline: none;
         font-size: 16px;
@@ -82,22 +81,25 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     font-weight: 500;
-    margin-top: 20px;   
-    thead {
-        tr {
-            .thRight {
-                text-align: right;
-            }
-        }
-    }
+    margin-top: 20px;
+
     th,
     td {
         padding: 10px;
-        text-align: left;
         border-bottom: 1px solid #ccc;
         color: #101828;
+
+        &.rightAlign {
+            text-align: right;
+        }
+
         div {
             display: flex;
+
+            &.flexEnd {
+                justify-content: flex-end;
+            }
+
             .next {
                 margin-left: 40px;
                 background-color: #7f56d9;
@@ -112,6 +114,7 @@
                 border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
             }
         }
+
         p {
             font-size: 14px;
             font-weight: 400;
@@ -119,9 +122,9 @@
             text-align: left;
             color: #475467;
         }
+
         span {
             color: #475467;
-            // font-weight: 400;
             font-size: 14px;
         }
     }
@@ -174,14 +177,7 @@
         cursor: pointer;
         margin-top: 3px;
     }
-    
+
     tbody {
-        .flexEnd {
-            text-align: right;
-            div {
-                display: flex;
-                justify-content: flex-end;
-            }
-        }
     }
 }

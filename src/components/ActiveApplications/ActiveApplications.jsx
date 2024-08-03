@@ -15,31 +15,30 @@ const ActiveApplications = () => {
       <div className={style.topDiv}>
         <h2>Активные заявки</h2>
       </div>
-
-      <div className={style.container}>
-        <div className={style.topWrapper}>
-          <Select
-            defaultValue="Все статусы"
-            onChange={handleChange}
-            options={[
-              { value: 'В работе', label: 'В работе' },
-              { value: 'На уточнении', label: 'На уточнении' },
-              { value: 'Отклонена', label: 'Отклонена' },
-              { value: 'На рассмотрении', label: 'На рассмотрении' },
-              { value: 'Рассмотрена', label: 'Рассмотрена' },
-            ]}
-          />
-          <div className={style.searchBar}>
-            <input type="text" placeholder="Поиск по номеру заказа" />
-          </div>
+      <div className={style.topWrapper}>
+        <Select
+          defaultValue="Все статусы"
+          onChange={handleChange}
+          options={[
+            { value: 'В работе', label: 'В работе' },
+            { value: 'На уточнении', label: 'На уточнении' },
+            { value: 'Отклонена', label: 'Отклонена' },
+            { value: 'На рассмотрении', label: 'На рассмотрении' },
+            { value: 'Рассмотрена', label: 'Рассмотрена' },
+          ]}
+        />
+        <div className={style.searchBar}>
+          <input type="text" placeholder="Поиск по номеру заказа" />
         </div>
+      </div>
+      <div className={style.container}>
         <table className={style.usersTable}>
           <thead>
             <tr>
               <th>Номер заявки</th>
               <th>Компания</th>
-              <th>Статус заявки <ArrowDown /></th>
-              <th>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight}>Статус заявки <ArrowDown /></th>
+              <th className={style.thRight}>Срок ответа <ArrowDown /></th>
             </tr>
           </thead>
           <tbody>
@@ -47,8 +46,8 @@ const ActiveApplications = () => {
             <tr>
               <td>№1</td>
               <td>ООО “Привет”<br /> <span>ИНН 231391934342</span></td>
-              <td><span className={style.inactive}>В работе</span></td>
-              <td>
+              <td className={style.flexEnd}><span className={style.inactive}>В работе</span></td>
+              <td className={style.flexEnd}>
                 <div>
                   <ConfigProvider locale={ruRU}>
                     <DatePicker onChange={dateOnChange} />

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAuthMe } from '../../store/slices/Admin.slice'
 import NavBar from '../../components/PopUp/NavBar/NavBar'
+import Loader from '../../components/Loader/Loader'
 
 const PanelLayout = () => {
 
@@ -22,7 +23,7 @@ const PanelLayout = () => {
   }, [admin])
   
   if (admin.loading) {
-    return <h1>Loading...</h1>
+    return <Loader />
   }
   return (
     <div className={styles.layout}>

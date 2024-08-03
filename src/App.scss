@@ -9,6 +9,7 @@
 .ant-picker {
     border-color: #7f56d9 !important;
     background: #7f56d9 !important;
+    width: 155px !important;
     .ant-picker-input {
         cursor: pointer;
         input::placeholder {
@@ -25,4 +26,10 @@
             fill: white;
         }
     }
+}
+.ant-select-selection-item {
+    color: #667085;
+}
+.ant-select {
+    margin-right: 20px;
 }

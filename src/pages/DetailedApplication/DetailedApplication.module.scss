@@ -53,4 +53,91 @@
             color: #475467;
         }
     }
+    .company {
+        margin-top: 30px;
+        border: 1px solid #E4E7EC;
+        background-color: #F9FAFB;
+        padding: 20px 24px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        .name {
+            font-weight: 500;
+            font-size: 14px;
+            color: #475467;
+        }
+        .linkBlock {
+            cursor: pointer;
+            align-items: center;
+            display: flex;
+            .companyName {
+                color: #6941C6;
+                font-size: 16px;
+                font-weight: 600;
+                margin-top: 5px;
+            }
+            svg {
+                margin-left: 4px;
+            }
+            .dateWrapper {
+                margin-top: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+    .twoBlocks {
+        margin-top: 30px;
+        display: flex;
+        .report {
+            width: 48%;
+            .btns {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                button {
+                    width: 49%;
+                    height: 40px;
+                    &.whiteBtn {
+                        border: 1px solid #D6BBFB;
+                        border-radius: 8px;
+                        display: flex;
+                        background-color: transparent;
+                        align-items: center;
+                        justify-content: center;
+                        color: #6941C6;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        svg {
+                            margin-right: 5px;
+                        }
+                    }
+                    &.redBtn {
+                        border: 0;
+                        border-radius: 8px;
+                        display: flex;
+                        background-color: #D92D20;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        svg {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.active {
+    margin-top: 5px;
+    background-color: #ecfdf3;
+    color: #067647 !important;
+    border: 1px solid #abefc6 !important;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
 }
