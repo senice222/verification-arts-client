@@ -1,134 +1,10 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport } from "./Svgs";
+import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft } from "./Svgs";
 import { DatePicker, ConfigProvider } from "antd";
 import UploadButton from "./UploadButton/UploadButton"
 import ruRU from "antd/es/locale/ru_RU";
-//             ▄▄██▄██▄▄
-//           ▄█    █    █▄
-//          ▄█           █▄
-//          █             █
-//         █               █
-//         █               █
-//         █               █
-//         █               █
-//          █▄     █     ▄█
-//           █    ▄▄▄    █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//     ▄████▄█           █▄████▄
-//   ▄█                         █▄
-//  █                             █
-// █                               █
-// █                               █
-// █                               █
-// █             ▄▄█▄▄             █
-//  █           █     █           █
-//   █▄       ▄█       █▄       ▄█
-//     █▄▄▄▄▄█           █▄▄▄▄▄█
-//           ▄█    █    █▄
-//          ▄█           █▄
-//          █             █
-//         █               █
-//         █               █
-//         █               █
-//         █               █
-//          █▄     █     ▄█
-//           █    ▄▄▄    █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//     ▄████▄█           █▄████▄
-//   ▄█                         █▄
-//  █                             █
-// █                               █
-// █                               █
-// █                               █
-// █             ▄▄█▄▄             █
-//  █           █     █           █
-//   █▄       ▄█       █▄       ▄█
-//     █▄▄▄▄▄█           █▄▄▄▄▄█
-//           ▄█    █    █▄
-//          ▄█           █▄
-//          █             █
-//         █               █
-//         █               █
-//         █               █
-//         █               █
-//          █▄     █     ▄█
-//           █    ▄▄▄    █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//     ▄████▄█           █▄████▄
-//   ▄█                         █▄
-//  █                             █
-// █                               █
-// █                               █
-// █                               █
-// █             ▄▄█▄▄             █
-//  █           █     █           █
-//   █▄       ▄█       █▄       ▄█
-//     █▄▄▄▄▄█           █▄▄▄▄▄█
-//           ▄█    █    █▄
-//          ▄█           █▄
-//          █             █
-//         █               █
-//         █               █
-//         █               █
-//         █               █
-//          █▄     █     ▄█
-//           █    ▄▄▄    █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//           █           █
-//     ▄████▄█           █▄████▄
-//   ▄█                         █▄
-//  █                             █
-// █                               █
-// █                               █
-// █                               █
-// █             ▄▄█▄▄             █
-//  █           █     █           █
-//   █▄       ▄█       █▄       ▄█
-//     █▄▄▄▄▄█           █▄▄▄▄▄█
+
 const DetailedApplication = () => {
   const dateOnChange = (date, dateString) => {
     console.log(date, dateString);
@@ -198,13 +74,12 @@ const DetailedApplication = () => {
             </button>
           </div>
           <div className={styles.firstBlock}>
-            <h1 className={styles.title}>Рассылка</h1>
             <UploadButton />
             <div className={styles.textareaDiv}>
-              <h2>Сообщение</h2>
+              <h2>Комментарий</h2>
               <textarea placeholder={"Введите описание"} />
-              <p>Максимум - 4096 символов</p>
             </div>
+            <button className={styles.finalBtn}><ArrowLeft/> ответ и закрыть заявку</button>
           </div>
         </div>
       </div>
