@@ -1,41 +1,79 @@
 import PathComponent from '../../components/PathComponent/PathComponent'
 import style from './DetailedCompany.module.scss'
-import { ArrowLink, ArrowDown, Calendar } from "../DetailedApplication/Svgs";
-import { Select, DatePicker, ConfigProvider } from 'antd';
+import { ArrowLink, ArrowDown } from "../DetailedApplication/Svgs";
+import { Select, DatePicker, ConfigProvider, notification } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU'
+import { useNavigate, useParams } from 'react-router-dom';
+import useSWR, { useSWRConfig } from 'swr';
+import { fetcher, url } from '../../core/axios';
+import Loader from '../../components/Loader/Loader';
+import { Calendar } from '../../components/Svgs/Svgs';
 
 const DetailedCompany = () => {
+    const { inn } = useParams()
+    const { data } = useSWR(`${url}/application/inn/${inn}`, fetcher);
+    const activeApplications = data?.filter(item => item.status !== "Рассмотрена" && item.status !== "Отклонена")
+    const { mutate } = useSWRConfig()
+    const navigate = useNavigate()
+
     const handleChange = (value) => {
         console.log(`selected ${value}`);
     };
-    const dateOnChange = (date, dateString) => {
-        console.log(date, dateString);
+
+    const dateOnChange = (date, id, _id) => {
+        try {
+            mutate(`${url}/application/getAll`, fetcher(`${url}/application/set-date/${id}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    _id,
+                    date: date.toISOString(),
+                }),
+            }))
+            notification.success({
+                message: "Дата ответа успешно установлена.",
+                duration: 2,
+                style: { fontFamily: "Inter" }
+            })
+        } catch (e) {
+            console.log(e)
+        }
     };
+
+    const statusStyles = {
+        'В работе': style.inactive,
+        'На уточнении': style.onClarification,
+        'Отклонена': style.blocked,
+        'На рассмотрении': style.active,
+        'Рассмотрена': style.active
+    }
+
+    if (!data) return <Loader />
+
     return (
         <div className={style.DetailedApplication}>
             <PathComponent first={"Входящие заявки"} second={"Заявка №12312944"} />
             <div className={style.topContainer}>
-                <h1>Профиль компании ООО “Привет”</h1>
+                <h1>Профиль компании {data[0].name}</h1>
             </div>
             <div className={style.company}>
                 <div className={style.item}>
                     <p className={style.name}>ИНН</p>
                     <div className={style.linkBlock}>
-                        <p className={style.companyName}>34234234213</p>
+                        <p className={style.companyName}>{data[0].inn}</p>
                         <ArrowLink />
                     </div>
                 </div>
                 <div className={style.item}>
                     <p className={style.name}>Всего заявок</p>
                     <div className={style.linkBlock}>
-                        <p className={style.active}>12</p>
+                        <p className={style.active}>{data.length}</p>
                     </div>
                 </div>
 
                 <div className={style.item}>
                     <p className={style.name}>Активных заявок</p>
                     <div className={style.linkBlock}>
-                        <span className={style.active}>12</span>
+                        <span className={style.active}>{activeApplications.length}</span>
                     </div>
                 </div>
 
@@ -72,67 +110,45 @@ const DetailedCompany = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {data.map((order: Order) => ( */}
-                            <tr>
-                                <td>№1</td>
-                                <td>ООО “Привет”<br /> <span>ИНН 231391934342</span></td>
-                                <td className={style.flexEnd}><span className={style.inactive}>В работе</span></td>
-                                <td className={style.flexEnd}>
-                                    <div>
-                                        <ConfigProvider locale={ruRU}>
-                                            <DatePicker onChange={dateOnChange} />
-                                        </ConfigProvider>
-                                        <button className={style.next}>
-                                            <svg
-                                                width={20}
-                                                height={20}
-                                                viewBox="0 0 20 20"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M4.16675 10H15.8334M15.8334 10L10.0001 4.16669M15.8334 10L10.0001 15.8334"
-                                                    stroke="white"
-                                                    strokeWidth="1.66667"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>№2</td>
-                                <td>ООО “Привет”<br /> <span>ИНН 231391934334</span></td>
-                                <td className={style.flexEnd}><span className={style.active}>Выполенен</span></td>
-                                <td className={style.flexEnd}>
-                                    <div>
-                                        <button className={style.date}>
-                                            до 12.04.2024
-                                            <Calendar />
-                                        </button>
-                                        <button className={style.next}>
-                                            <svg
-                                                width={20}
-                                                height={20}
-                                                viewBox="0 0 20 20"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M4.16675 10H15.8334M15.8334 10L10.0001 4.16669M15.8334 10L10.0001 15.8334"
-                                                    stroke="white"
-                                                    strokeWidth="1.66667"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            {/* ))} */}
+                            {data.map((application, i) => (
+                                <tr key={i}>
+                                    <td>№{application.normalId}</td>
+                                    <td>{application.name}<br /> <span>ИНН {application.inn}</span></td>
+                                    <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
+                                    <td className={style.flexEnd}>
+                                        <div>
+                                            {
+                                                !application.dateAnswer ? (
+                                                    <ConfigProvider locale={ruRU}>
+                                                        <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
+                                                    </ConfigProvider>
+                                                ) : <button className={style.btnDate}>
+                                                    <Calendar />
+                                                    {application.dateAnswer}
+                                                </button>
+                                            }
+                                            <button className={style.next} onClick={() => navigate(`/application/${application._id}`)}>
+                                                <svg
+                                                    width={20}
+                                                    height={20}
+                                                    viewBox="0 0 20 20"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M4.16675 10H15.8334M15.8334 10L10.0001 4.16669M15.8334 10L10.0001 15.8334"
+                                                        stroke="white"
+                                                        strokeWidth="1.66667"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            ))}
                         </tbody>
                     </table>
                 </div>

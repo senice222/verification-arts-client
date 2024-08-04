@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <Settings />,
       },
       {
-        path: "/companies/:id",
+        path: "/companies/:inn",
         element: <DetailedCompany />,
       },
       {

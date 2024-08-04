@@ -17,6 +17,7 @@ const NavBarItem = ({ Svg, text, path }) => {
 }
 const NavBarItemOpenAble = ({ Svg, text }) => {
     const [opened, setOpened] = useState(false);
+    const navigate = useNavigate()
 
     return (
         <div className={`${styles.item2} ${opened ? styles.active : ""}`}>
@@ -29,11 +30,11 @@ const NavBarItemOpenAble = ({ Svg, text }) => {
                 <Arrow />
             </div>
             <div className={styles.subCategories}>
-                <div className={styles.sub}>
-                    <NavLink to="/">Активные</NavLink>
+                <div className={styles.sub} onClick={() => navigate('/')}>
+                    <p>Активные</p>
                 </div>
-                <div className={styles.sub}>
-                    <NavLink to="/finished">Завершённые</NavLink>
+                <div className={styles.sub} onClick={() => navigate('/finished')}>
+                    <p>Завершённые</p>
                 </div>
             </div>
         </div>

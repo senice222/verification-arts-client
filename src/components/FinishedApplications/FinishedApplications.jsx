@@ -1,13 +1,58 @@
 import style from './FinishedApplications.module.scss'
-import { DatePicker, ConfigProvider } from 'antd';
+import { DatePicker, ConfigProvider, notification } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU'
 import { ArrowDown } from '../Svgs/Svgs';
+import useSWR, { useSWRConfig } from 'swr';
+import { fetcher, url } from '../../core/axios';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Loader from '../Loader/Loader';
+import { Calendar } from '../../pages/DetailedApplication/Svgs';
 
 const FinishedApplications = () => {
+  const { data } = useSWR(`${url}/application/getAll`, fetcher);
+  const { mutate } = useSWRConfig()
+  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const dateOnChange = (date, dateString) => {
-    console.log(date, dateString);
+  const filteredData = data?.filter((application) => {
+    const statusMatch = application.status === "Рассмотрена"
+    const searchTermLower = searchTerm.toLowerCase()
+    const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
+    const innMatch = application.inn?.includes(searchTermLower)
+
+    return statusMatch && (normalIdMatch || innMatch)
+  })
+
+  const dateOnChange = (date, id, _id) => {
+    try {
+      mutate(`${url}/application/getAll`, fetcher(`${url}/application/set-date/${id}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          _id,
+          date: date.toISOString(),
+        }),
+      }))
+      notification.success({
+        message: "Дата ответа успешно установлена.",
+        duration: 2,
+        style: { fontFamily: "Inter" }
+      })
+    } catch (e) {
+      console.log(e)
+    }
   };
+
+  const statusStyles = {
+    'В работе': style.inactive,
+    'На уточнении': style.onClarification,
+    'Отклонена': style.blocked,
+    'На рассмотрении': style.active,
+    'Рассмотрена': style.active
+  }
+
+  if (!data) return <Loader />
+
   return (
     <div className={style.wrapper}>
       <div className={style.topDiv}>
@@ -16,7 +61,12 @@ const FinishedApplications = () => {
       <div className={style.topWrapper}>
         <p></p>
         <div className={style.searchBar}>
-          <input type="text" placeholder="Поиск по номеру заказа, компании или ИНН" />
+          <input
+            type="text"
+            placeholder="Поиск по номеру заказа или ИНН"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
       <div className={style.container}>
@@ -30,38 +80,45 @@ const FinishedApplications = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {data.map((order: Order) => ( */}
-            <tr>
-              <td >№1</td>
-              <td >ООО “Привет”<br /> <span>ИНН 231391934342</span></td>
-              <td className={style.flexEnd}><span className={style.active}>Выполнен</span></td>
-              <td className={style.flexEnd}>
-                <div>
-                  <ConfigProvider locale={ruRU}>
-                    <DatePicker onChange={dateOnChange} />
-                  </ConfigProvider>
-                  <button className={style.next}>
-                    <svg
-                      width={20}
-                      height={20}
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.16675 10H15.8334M15.8334 10L10.0001 4.16669M15.8334 10L10.0001 15.8334"
-                        stroke="white"
-                        strokeWidth="1.66667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </td>
+            {filteredData.map((item, i) => (
+              <tr key={i}>
+                <td >№{item.normalId}</td>
+                <td >{item.name}<br /> <span>ИНН {item.inn}</span></td>
+                <td className={style.flexEnd}><span className={statusStyles[item.status]}>{item.status}</span></td>
+                <td className={style.flexEnd}>
+                  <div>
+                  {
+                      !item.dateAnswer ? (
+                        <ConfigProvider locale={ruRU}>
+                          <DatePicker onChange={(date) => dateOnChange(date, item.owner, item._id)} />
+                        </ConfigProvider>
+                      ) : <button className={style.btnDate}>
+                        <Calendar />
+                        {item.dateAnswer}
+                      </button>
+                    }
+                    <button className={style.next} onClick={() => navigate(`/application/${item._id}`)}>
+                      <svg
+                        width={20}
+                        height={20}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.16675 10H15.8334M15.8334 10L10.0001 4.16669M15.8334 10L10.0001 15.8334"
+                          stroke="white"
+                          strokeWidth="1.66667"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
 
-            </tr>
-            {/* ))} */}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

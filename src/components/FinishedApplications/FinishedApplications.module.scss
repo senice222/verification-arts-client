@@ -168,7 +168,14 @@
         border-radius: 12px;
         font-weight: 500;
     }
-
+    .onClarification {
+        background-color: #F9F5FF;
+        color: #6941C6 !important;
+        border: 1px solid #E9D7FE !important;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 500;
+    }
     .icon {
         margin-right: 10px;
         cursor: pointer;
@@ -184,4 +191,19 @@
             }
         }
     }
+}
+.btnDate {
+    height: 40px;
+    width: 155px;
+    background-color: white;
+    border: 1px solid #D0D5DD;
+    color: #344054;
+    display: flex;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
 }

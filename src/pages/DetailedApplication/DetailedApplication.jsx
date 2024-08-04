@@ -1,15 +1,23 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft } from "./Svgs";
+import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Docs } from "./Svgs";
 import { DatePicker, ConfigProvider } from "antd";
 import UploadButton from "./UploadButton/UploadButton"
+import CancelModal from '../../components/Modals/CancelModal/CancelModal'
+import {useState} from 'react'
 import ruRU from "antd/es/locale/ru_RU";
+import ClarificationModal from "../../components/Modals/ClarificationModal/ClarificationModal"
 
 const DetailedApplication = () => {
   const dateOnChange = (date, dateString) => {
     console.log(date, dateString);
   };
+  const [isOpened, setOpened] = useState(false)
+  const [isCancel, setCancel] = useState(false)
   return (
+    <>
+    <ClarificationModal isOpen={isOpened} setOpen={() => setOpened(false)}/>
+      <CancelModal isOpened={isCancel} setOpened={() => setCancel(false)}/>
     <div className={styles.DetailedApplication}>
       <PathComponent first={"Входящие заявки"} second={"Заявка №12312944"} />
 
@@ -66,10 +74,10 @@ const DetailedApplication = () => {
           <h2>Отправить ответ</h2>
           <hr />
           <div className={styles.btns}>
-            <button className={styles.whiteBtn}>
+            <button onClick={() => setOpened(true)} className={styles.whiteBtn}>
               <Pencil /> На уточнение
             </button>
-            <button className={styles.redBtn}>
+            <button onClick={() => setCancel(true)} className={styles.redBtn}>
               <CrossReport /> Отклонить заявку
             </button>
           </div>
@@ -79,11 +87,43 @@ const DetailedApplication = () => {
               <h2>Комментарий</h2>
               <textarea placeholder={"Введите описание"} />
             </div>
-            <button className={styles.finalBtn}><ArrowLeft/> ответ и закрыть заявку</button>
+            <button className={styles.finalBtn}><ArrowLeft/>Отправить ответ и закрыть заявку</button>
+          </div>
+        </div>
+        <div className={styles.reportChanges}>
+          <h2>Изменения по заявке</h2>
+          <div className={styles.item}>
+            <p className={styles.companyName}>ООО “ПРИВЕТ”</p>
+            <div className={styles.document}>
+              <Docs />
+              <div>
+                  <p className={styles.actName}>Акт.docx</p>
+                  <p className={styles.download}>Скачать</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.item}>
+            <p className={styles.companyName}>Пояснения к заявке.docx</p>
+            <div className={styles.document}>
+              <Docs />
+              <div>
+                  <p className={styles.actName}>Акт.docx</p>
+                  <p className={styles.download}>Скачать</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.logs}>
+            <div className={styles.log}>
+              <h3>Создана заявка №233213123</h3>
+            </div>
+            <div className={styles.log}>
+              <h3>Статус заявки сменен на В работе</h3>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 
