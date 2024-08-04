@@ -19,4 +19,21 @@
     svg {
         margin: 0 20px;
     }
+    @media (max-width: 880px) {
+        display: none;
+    }
+}
+.responsiveBack {
+    display: none;
+    align-items: center;
+    cursor: pointer;
+    h3 {
+        margin-left: 7px;
+        font-size: 14px;
+        color: #475467;
+        font-weight: 600;
+    }
+    @media (max-width: 880px) {
+        display: flex;
+    }
 }

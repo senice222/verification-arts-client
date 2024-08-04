@@ -1,6 +1,6 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Docs } from "./Svgs";
+import {Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Docs, ArrowBack} from "./Svgs";
 import { DatePicker, ConfigProvider } from "antd";
 import UploadButton from "./UploadButton/UploadButton"
 import CancelModal from '../../components/Modals/CancelModal/CancelModal'
@@ -14,6 +14,7 @@ const DetailedApplication = () => {
   };
   const [isOpened, setOpened] = useState(false)
   const [isCancel, setCancel] = useState(false)
+
   return (
     <>
     <ClarificationModal isOpen={isOpened} setOpen={() => setOpened(false)}/>
@@ -25,6 +26,7 @@ const DetailedApplication = () => {
         <h1>Заявка №12312944</h1>
         <button>Удалить заявку</button>
       </div>
+
       <hr />
       <h2 className={styles.subtitle}>Информация о заявке</h2>
       <hr />

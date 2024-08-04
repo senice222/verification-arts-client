@@ -16,15 +16,15 @@ const PanelLayout = () => {
     dispatch(fetchAuthMe())
   }, [])
   
-  useEffect(() => {
-    if (!admin.data && !admin.loading) {
-      navigate('/login')
-    }
-  }, [admin])
+  // useEffect(() => {
+  //   if (!admin.data && !admin.loading) {
+  //     navigate('/login')
+  //   }
+  // }, [admin])
   
-  if (admin.loading) {
-    return <Loader />
-  }
+  // if (admin.loading) {
+  //   return <Loader />
+  // }
   return (
     <div className={styles.layout}>
         <NavBar />
