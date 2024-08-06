@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 import styles from "./UploadButton.module.scss";
-import { ClipLoader } from "react-spinners";
-import { Pdf } from "../Svgs";
+import { Document } from "../Svgs";
+import PropTypes from 'prop-types'
 
-const UploadButton = () => {
-  const [uploads, setUploads] = useState([]);
+const UploadButton = ({uploads, setUploads}) => {
   const fileInputRef = useRef(null);
 
   const handleContainerClick = () => {
@@ -109,12 +108,12 @@ const UploadButton = () => {
           </p>
         </div>
       </div>
-      {uploads.length > 0 && (
+      {uploads?.length > 0 && (
         <div className={styles.uploadList}>
-          {uploads.map((upload, index) => (
+          {uploads?.map((upload, index) => (
             <div key={index} className={styles.uploadItem}>
               <div className={styles.svg}>
-                <Pdf />
+                <Document />
               </div>
               <div className={styles.fileInfo}>
                 <div className={styles.fileName}>
@@ -148,5 +147,10 @@ const UploadButton = () => {
     </div>
   );
 };
+
+UploadButton.propTypes = {
+  uploads: PropTypes.array.isRequired, 
+  setUploads: PropTypes.func.isRequired
+}
 
 export default UploadButton;

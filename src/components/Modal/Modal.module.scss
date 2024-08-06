@@ -137,3 +137,13 @@
         }
     }
 }
+.left {
+  display: flex;
+  align-items: center;
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #101828;
+    margin-left: 15px;
+  }
+}

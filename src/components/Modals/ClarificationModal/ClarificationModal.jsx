@@ -1,25 +1,63 @@
-import React from 'react';
+import { useState } from 'react';
 import s from './ClarificationModal.module.scss'
 import Modal from '../../Modal/Modal'
 import UploadButton from '../../../pages/DetailedApplication/UploadButton/UploadButton'
-const ClarificationModal = ({isOpen, setOpen}) => {
+import { useSWRConfig } from 'swr';
+import { fetcher, url } from '../../../core/axios';
+import PropTypes from 'prop-types';
+import { notification } from 'antd';
+
+const ClarificationModal = ({ data, isOpen, setOpen }) => {
+  const { mutate } = useSWRConfig()
+  const [comments, setComments] = useState('')
+  const [uploads, setUploads] = useState([])
+
+  const handleClarification = async () => {
+    const formData = new FormData()
+    formData.append('_id', data._id)
+    formData.append('text', comments)
+    uploads.forEach((file) => formData.append('files', file.file))
+
+    try {
+      await mutate(`${url}/application/detailed/${data._id}`, fetcher(`${url}/application/get-clarifications/${data.owner}`, {
+        method: 'POST',
+        body: formData
+      }))
+      notification.success({
+        message: "Заявка успешно отправлена на уточнение",
+        duration: 1.5,
+        style: { fontFamily: "Inter" }
+      })
+      setOpen(false)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <Modal isOpened={isOpen} setOpen={setOpen} long={true}>
-        <h2>Передать заявку на уточнение</h2>
-        <p>Клиенту будет предложено дополнить заявку - текстом и файлами.</p>
-        <div className={s.firstBlock}>
-            <UploadButton />
-            <div className={s.textareaDiv}>
-              <h2>Комментарий <span>*</span></h2>
-              <textarea placeholder={"Введите описание"} />
-            </div>
-            <div className={s.btns}>
-                <button className={s.whiteBtn}>Закрыть</button>
-                <button className={s.blueBtn}>Передать на уточнение</button>
-            </div>
-          </div>
+      <h2>Передать заявку на уточнение</h2>
+      <p>Клиенту будет предложено дополнить заявку - текстом и файлами.</p>
+      <div className={s.firstBlock}>
+        <UploadButton uploads={uploads} setUploads={setUploads} />
+        <div className={s.textareaDiv}>
+          <h2>Комментарий <span>*</span></h2>
+          <textarea value={comments} onChange={(e) => setComments(e.target.value)} placeholder={"Введите описание"} />
+        </div>
+        <div className={s.btns}>
+          <button className={s.whiteBtn} onClick={() => setOpen(false)}>Закрыть</button>
+          <button className={s.blueBtn} onClick={handleClarification}>Передать на уточнение</button>
+        </div>
+      </div>
     </Modal>
   )
 }
+
+ClarificationModal.propTypes = {
+  data: PropTypes.object,
+  isOpen: PropTypes.boolean,
+  setOpen: PropTypes.func
+};
+
 
 export default ClarificationModal

@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  transition: .3s;
   h1 {
     font-size: 24px;
     font-weight: 600;
@@ -16,7 +17,10 @@
     margin-top: 15px;
   }
   @media (max-width: 880px) {
-    display: none;
+    position: fixed;
+    z-index: 100;
+    width: 80vw;
+    left: -80vw;
   }
 }
 .item {
@@ -174,5 +178,35 @@
         cursor: pointer;
       }
     }
+  }
+}
+.cross {
+  display: none;
+}
+@media (max-width: 880px) {
+  .cross {
+    display: block;
+    position: fixed;
+    z-index: 100;
+    svg {
+      stroke: white;
+    }
+    right: 30px;
+    top: 25px;
+    cursor: pointer;
+  }
+  .active2 {
+    left: 0;
+    padding: 20px 20px;
+  }
+  .activeBg {
+    z-index: 99;
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    background-color: rgba(12, 17, 29, 0.7);
+    opacity: 1;
+    display: flex;
+    justify-content: space-between;
   }
 }

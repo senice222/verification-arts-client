@@ -1,5 +1,8 @@
 .layout {
     display: flex;
+    @media (max-width: 880px) {
+        flex-direction: column;
+    }
 }
 .content {
     padding: 15px 30px;
