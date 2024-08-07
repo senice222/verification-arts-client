@@ -38,3 +38,9 @@ body {
 .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper { 
     max-height: calc(100% - 350px) !important; 
 }
+
+@media (max-width: 768px) {
+    .css-1869usk-MuiFormControl-root {
+        margin: 0px !important
+    }
+}

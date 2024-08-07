@@ -1,6 +1,6 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Pdf, Docs, Document } from "./Svgs";
+import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Pdf, Docs } from "./Svgs";
 import { Calendar } from "../../components/Svgs/Svgs";
 import { DatePicker, ConfigProvider, notification } from "antd";
 import UploadButton from "./UploadButton/UploadButton"
@@ -9,11 +9,12 @@ import { useState } from 'react'
 import ruRU from "antd/es/locale/ru_RU";
 import ClarificationModal from "../../components/Modals/ClarificationModal/ClarificationModal"
 import useSWR, { useSWRConfig } from "swr";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import $api, { fetcher, url } from "../../core/axios";
 import Loader from "../../components/Loader/Loader";
 import StatusDropdown from "./StatusDropdown/StatusDropdown";
 import notific from '../../assets/Screenshot_3.png'
+import Clarifications from "./Clarification/Clarification";
 
 const getFileExtension = (url) => {
   const pathname = new URL(url).pathname;
@@ -25,6 +26,7 @@ const DetailedApplication = () => {
   const { id } = useParams()
   const { data } = useSWR(`${url}/application/detailed/${id}`, fetcher);
   const { mutate } = useSWRConfig()
+  const navigate = useNavigate()
   const [comments, setComments] = useState('')
   const [isOpened, setOpened] = useState(false)
   const [isCancel, setCancel] = useState(false)
@@ -53,11 +55,12 @@ const DetailedApplication = () => {
   const handleAnswer = async () => {
     const formData = new FormData()
     formData.append('_id', data._id)
-    formData.append('text', comments)
+    formData.append('comments', comments)
     formData.append('status', "Рассмотрена")
-  
-    uploads.forEach((file) => formData.append('files', file.file))
-  
+    uploads.forEach((file) => {
+      formData.append('files', file.file)
+    });
+
     try {
       await $api.put(`/application/reviewed/${data.owner}`, formData, {
         headers: {
@@ -75,6 +78,25 @@ const DetailedApplication = () => {
         message: "Ошибка при отправке заявки",
         description: e.message
       })
+    }
+  }
+
+  const handleDelete = () => { 
+    try {
+        mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
+          method: "DELETE",
+          body: JSON.stringify({
+            _id: data._id
+          })
+        }))
+        notification.success({
+          message: "Заявка успешно удалена",
+          duration: 1.5,
+          style: { fontFamily: "Inter" }
+        })
+        navigate('/all-applications')
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -96,7 +118,7 @@ const DetailedApplication = () => {
 
         <div className={styles.topContainer}>
           <h1>Заявка №{data.normalId}</h1>
-          <button>Удалить заявку</button>
+          <button onClick={handleDelete}>Удалить заявку</button>
         </div>
 
         <hr />
@@ -105,23 +127,36 @@ const DetailedApplication = () => {
         <div className={styles.alertBox}>
           <Alert />
           <div>
-            <h3>Клиент пока не знает срок рассмотрения заявки</h3>
-            <p>
-              Установите срок ответа ниже, чтобы передать заявку на рассмотрение.
-            </p>
+            {
+              data.dateAnswer.length > 0 ? (
+                <>
+                  <h3>Клиент знает срок рассмотрения заявки</h3>
+                  <p>
+                    Срок ответа установлен до {data.dateAnswer}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3>Клиент пока не знает срок рассмотрения заявки</h3>
+                  <p>
+                    Установите срок ответа ниже, чтобы передать заявку на рассмотрение.
+                  </p>
+                </>
+              )
+            }
           </div>
         </div>
         <div className={styles.company}>
           <div className={styles.item}>
             <p className={styles.name}>Компания</p>
-            <div className={styles.linkBlock}>
+            <div className={styles.linkBlock} onClick={() => navigate(`/companies/${data.inn}`)}>
               <p className={styles.companyName}>{data.name}</p>
               <ArrowLink />
             </div>
           </div>
           <div className={styles.item}>
             <p className={styles.name}>ИНН</p>
-            <div className={styles.linkBlock}>
+            <div className={styles.linkBlock} onClick={() => navigate(`/all-applications?inn=${data.inn}`)}>
               <p className={styles.companyName}>{data.inn}</p>
               <ArrowLink />
             </div>
@@ -153,16 +188,12 @@ const DetailedApplication = () => {
             <h2>Отправить ответ</h2>
             <hr />
             {
-              (data.status !== "Отклонено" && data.status !== "Рассмотрена" && data.status !== "На уточнении") ? (
+              (data.status !== "Отклонена" && data.status !== "Рассмотрена" && data.status !== "На уточнении") ? (
                 <>
                   <div className={styles.btns}>
-                    {
-                      data.status !== "На уточнении" && (
-                        <button onClick={() => setOpened(true)} className={styles.whiteBtn}>
-                          <Pencil /> На уточнение
-                        </button>
-                      )
-                    }
+                    <button onClick={() => setOpened(true)} className={styles.whiteBtn}>
+                      <Pencil /> На уточнение
+                    </button>
                     <button onClick={() => setCancel(true)} className={styles.redBtn}>
                       <CrossReport /> Отклонить заявку
                     </button>
@@ -171,13 +202,19 @@ const DetailedApplication = () => {
                     <UploadButton uploads={uploads} setUploads={setUploads} />
                     <div className={styles.textareaDiv}>
                       <h2>Комментарий</h2>
-                      <textarea value={comments} onChange={(e) => setComments(e.target.value)} placeholder={"Введите описание"} />
+                      <textarea
+                        value={comments}
+                        onChange={(e) => setComments(e.target.value)}
+                        placeholder="Введите описание"
+                      />
                     </div>
-                    <button className={styles.finalBtn} onClick={handleAnswer}><ArrowLeft />Отправить ответ и закрыть заявку</button>
+                    <button className={styles.finalBtn} onClick={handleAnswer}>
+                      <ArrowLeft /> Отправить ответ и закрыть заявку
+                    </button>
                   </div>
                 </>
               ) : (
-                <button className={styles.cancelledBtn}><ArrowLeft />Заявка закрыта</button>
+                <button className={styles.cancelledBtn}><ArrowLeft /> Заявка закрыта</button>
               )
             }
           </div>
@@ -210,61 +247,33 @@ const DetailedApplication = () => {
               <div className={styles.logs}>
                 {data && data.history ? (
                   data.history.map((item, index) => (
-                    <div key={index} className={styles.log}>
-                      <h3>{item.label}</h3>
+                    <div key={index} className={item.type ? styles.questionText : styles.log}>
+
+                      {item.status === 'answer' ? item.combinedClarifications && (
+                        <Clarifications clarificationsAnswer={item.combinedClarifications} />
+                      ) : <h3>{item.label}</h3>}
                     </div>
                   ))
                 ) : (
                   <p>loading..</p>
                 )}
               </div>
-            
-              {(data.status) && (
-                (data.clarificationsAnswer.text || (data.clarificationsAnswer.files && data.clarificationsAnswer.files.length > 0)) ? (
-                  <div>
-                    <h1 style={{fontSize: "16px", marginTop: "10px"}}>Ответ на уточнения</h1>
-                    {data.clarificationsAnswer.text && (
-                      <>
-                        <p className={styles.topicText}>{data.name}</p>
-                        <div className={styles.textClarification}>
-                          <p>{data.clarificationsAnswer.text}</p>
-                        </div>
-                      </>
-                    )}
-                    {data.clarificationsAnswer.files && data.clarificationsAnswer.files.length > 0 && (
-                      <div className={styles.filesClarification}>
-                        <p className={styles.topicText}>{data.name}</p>
 
-                        {data.clarificationsAnswer.files.map((file, index) => {
-                          const fileExtension = getFileExtension(file);
-                          const Icon = filesObj[fileExtension] || <Document />
-                          return (
-                            <div key={index} className={styles.fileItem}>
-                              {Icon}
-                              <div>
-                                <p>{`Файл уточнения ${index + 1}${fileExtension}`}</p>
-                                <a href={file} download>Скачать</a>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ) : (
+              {
+                data.status === 'На уточнении' && (
                   <div className={styles.closedDivText}>
                     <img src={notific} alt='/' />
                     <p>Уточнения появятся здесь</p>
                   </div>
                 )
-              )}
+              }
             </div>
             {(data.status === "Отклонена" || data.status === "Рассмотрена") && (
-                <div className={styles.closedDivText}>
-                  <img src={notific} alt='/' />
-                  <p>Заявка закрыта</p>
-                </div>
-              )}
+              <div className={styles.closedDivText}>
+                <img src={notific} alt='/' />
+                <p>Заявка закрыта</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

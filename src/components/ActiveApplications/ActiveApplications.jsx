@@ -105,7 +105,7 @@ const ActiveApplications = () => {
               <th>Номер заявки</th>
               <th>Компания</th>
               <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
             </tr>
           </thead>
           <tbody>

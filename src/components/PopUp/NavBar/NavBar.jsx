@@ -1,13 +1,14 @@
 import { useState } from "react";
 import styles from "./NavBar.module.scss";
 import { DocumentSvg, Building, Mail, Arrow } from "./Svgs";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import settings from "../../../assets/settings-01.png";
 import user from "../../../assets/user-01.png";
 import logout1 from "../../../assets/log-out-01.png";
 import {Cross} from '../../../components/Modal/Svgs'
 import {useDispatch, useSelector} from 'react-redux'
 import {logout} from '../../../store/slices/Admin.slice'
+import Loader from "../../Loader/Loader";
 
 const NavBarItem = ({ Svg, text, path }) => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const NavBar = ({ isActive, setActive }) => {
   const dispatch = useDispatch();
 
   const admin = useSelector((state) => state.admin.data);
+  if (!admin) return <Loader />
   return (
     <div
       className={`${styles.navBarWrapper} ${isActive ? styles.activeBg : ""}`}
@@ -84,8 +86,8 @@ const NavBar = ({ isActive, setActive }) => {
             </div>
             <div className={styles.info}>
               <div>
-                <h2>Admin</h2>
-                <p>@mshopybot</p>
+                <h2>{admin.login}</h2>
+                <p>@{admin.login}</p>
               </div>
               <img onClick={() => {
                 dispatch(logout())

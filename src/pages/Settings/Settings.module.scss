@@ -16,8 +16,11 @@
             text-align: left;
         }
         button {
-            background-color: #7F56D9;
-            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7f56d9;
+            color: #ffffff;
             padding: 10px 14px;
             border: 0;
             width: 224px;
@@ -49,7 +52,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    
+
     h2 {
         font-size: 18px;
         font-weight: 500;
@@ -95,7 +98,7 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     font-weight: 500;
-    margin-top: 20px;   
+    margin-top: 20px;
     thead {
         tr {
             .thRight {
@@ -187,7 +190,7 @@
         cursor: pointer;
         margin-top: 3px;
     }
-    
+
     tbody {
         .flexEnd {
             text-align: right;
@@ -203,5 +206,22 @@
     gap: 10px;
     svg {
         cursor: pointer;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        margin-left: 0px !important;
+        width: 100% !important;
+        padding: 12px;
+    }
+    .topDiv {
+        h2 {
+            font-size: 20px !important;
+        }
+        button {
+            width: 52% !important;
+            margin-left: 5px;
+        }
     }
 }

@@ -16,13 +16,14 @@ const FinishedApplications = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const filteredData = data?.filter((application) => {
-    const statusMatch = application.status === "Рассмотрена"
-    const searchTermLower = searchTerm.toLowerCase()
-    const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
-    const innMatch = application.inn?.includes(searchTermLower)
+    const statusMatch = application.status === "Рассмотрена";
+    const searchTermLower = searchTerm.toLowerCase();
+    const normalIdMatch = application.normalId?.toString().includes(searchTermLower);
+    const innMatch = application.inn?.toLowerCase().includes(searchTermLower);
+    const companyNameMatch = application.name?.toLowerCase().includes(searchTermLower);
 
-    return statusMatch && (normalIdMatch || innMatch)
-  })
+    return statusMatch && (normalIdMatch || innMatch || companyNameMatch);
+  });
 
   const dateOnChange = (date, id, _id) => {
     try {
@@ -63,7 +64,7 @@ const FinishedApplications = () => {
         <div className={style.searchBar}>
           <input
             type="text"
-            placeholder="Поиск по номеру заказа или ИНН"
+            placeholder="Поиск по номеру заявки, компании или ИНН"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -76,7 +77,7 @@ const FinishedApplications = () => {
               <th>Номер заявки</th>
               <th>Компания</th>
               <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
             </tr>
           </thead>
           <tbody>
@@ -87,7 +88,7 @@ const FinishedApplications = () => {
                 <td className={style.flexEnd}><span className={statusStyles[item.status]}>{item.status}</span></td>
                 <td className={style.flexEnd}>
                   <div>
-                  {
+                    {
                       !item.dateAnswer ? (
                         <ConfigProvider locale={ruRU}>
                           <DatePicker onChange={(date) => dateOnChange(date, item.owner, item._id)} />

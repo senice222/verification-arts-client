@@ -98,6 +98,7 @@
 
             &.flexEnd {
                 justify-content: flex-end;
+                align-items: center
             }
 
             .next {
@@ -179,5 +180,22 @@
     }
 
     tbody {
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        width: auto !important;
+    }
+    .searchBar {
+        input {
+            margin-top: 10px;
+            width: 80% !important;
+        }
+    }
+    
+    .active {
+        display: block;
+        text-align: center;
     }
 }

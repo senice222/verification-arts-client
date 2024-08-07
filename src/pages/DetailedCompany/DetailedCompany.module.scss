@@ -5,8 +5,8 @@
         font-size: 18px;
         color: #101828;
     }
-
 }
+
 .topContainer {
     margin-top: 30px;
     width: 100%;
@@ -284,5 +284,11 @@
                 justify-content: flex-end;
             }
         }
+    }
+}
+
+@media (max-width: 767px) {
+    .DetailedApplication {
+        width: 90% !important;
     }
 }

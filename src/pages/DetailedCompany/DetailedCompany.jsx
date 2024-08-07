@@ -8,17 +8,34 @@ import useSWR, { useSWRConfig } from 'swr';
 import { fetcher, url } from '../../core/axios';
 import Loader from '../../components/Loader/Loader';
 import { Calendar } from '../../components/Svgs/Svgs';
+import { useState } from 'react';
 
 const DetailedCompany = () => {
     const { inn } = useParams()
     const { data } = useSWR(`${url}/application/inn/${inn}`, fetcher);
+    const [selectedStatus, setSelectedStatus] = useState('Все статусы');
+    const [searchTerm, setSearchTerm] = useState('');
     const activeApplications = data?.filter(item => item.status !== "Рассмотрена" && item.status !== "Отклонена")
     const { mutate } = useSWRConfig()
     const navigate = useNavigate()
 
     const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        setSelectedStatus(value);
     };
+
+    const handleInnClick = (inn) => {
+        navigate(`/all-applications?inn=${inn}`);
+    };
+
+    const filteredData = data && (
+        data?.filter(item => {
+            const statusMatch = selectedStatus === 'Все статусы' || item.status === selectedStatus;
+            const searchTermLower = searchTerm.toLowerCase();
+            const normalIdMatch = item.normalId.toString().toLowerCase().includes(searchTermLower);
+
+            return statusMatch && (normalIdMatch);
+        })
+    )
 
     const dateOnChange = (date, id, _id) => {
         try {
@@ -58,7 +75,7 @@ const DetailedCompany = () => {
             <div className={style.company}>
                 <div className={style.item}>
                     <p className={style.name}>ИНН</p>
-                    <div className={style.linkBlock}>
+                    <div className={style.linkBlock} onClick={() => handleInnClick(data[0].inn)}>
                         <p className={style.companyName}>{data[0].inn}</p>
                         <ArrowLink />
                     </div>
@@ -96,7 +113,12 @@ const DetailedCompany = () => {
                         ]}
                     />
                     <div className={style.searchBar}>
-                        <input type="text" placeholder="Поиск по номеру заявки" />
+                        <input
+                            type="text"
+                            placeholder="Поиск по номеру заявки"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                 </div>
                 <div className={style.container}>
@@ -110,7 +132,7 @@ const DetailedCompany = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((application, i) => (
+                            {filteredData.map((application, i) => (
                                 <tr key={i}>
                                     <td>№{application.normalId}</td>
                                     <td>{application.name}<br /> <span>ИНН {application.inn}</span></td>

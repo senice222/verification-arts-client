@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 import { fetcher, url } from '../../core/axios'
 import Loader from '../../components/Loader/Loader'
@@ -14,10 +14,19 @@ import { useNavigate } from 'react-router-dom'
 
 const AllApplications = () => {
     const { data } = useSWR(`${url}/application/getAll`, fetcher);
+    const [searchInput, setSearchInput] = useState('');
     const [company, setCompany] = useState('');
     const [status, setStatus] = useState('')
     const { mutate } = useSWRConfig()
     const navigate = useNavigate()
+    const query = new URLSearchParams(location.search);
+    const filterInn = query.get('inn');
+
+    useEffect(() => {
+        if (filterInn) {
+            setSearchInput(filterInn);
+        }
+    }, [filterInn]);
 
     const handleChangeCompany = (event) => {
         setCompany(event.target.value);
@@ -26,11 +35,18 @@ const AllApplications = () => {
         setStatus(event.target.value);
     };
 
-    const filteredData = data?.filter((application) => {
-        const statusMatch = status ? application.status === status : true;
-        const companyMatch = company ? application.name === company : true;
-        return statusMatch && companyMatch;
-    });
+    const filteredData = data && (
+        data.filter((application) => {
+            const statusMatch = status ? application.status === status : true;
+            const companyMatch = company ? application.name === company : true;
+            const searchMatch = searchInput ? (
+                application.normalId.toString().includes(searchInput.toLowerCase()) ||
+                application.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+                application.inn.toLowerCase().includes(searchInput.toLowerCase())
+            ) : true;
+            return statusMatch && companyMatch && searchMatch;
+        })
+    );
 
     const dateOnChange = (date, id, _id) => {
         try {
@@ -44,7 +60,7 @@ const AllApplications = () => {
             notification.success({
                 message: "Дата ответа успешно установлена.",
                 duration: 2,
-                style: {fontFamily: "Inter"}
+                style: { fontFamily: "Inter" }
             })
         } catch (e) {
             console.log(e)
@@ -106,6 +122,7 @@ const AllApplications = () => {
                             label="Статус"
                             onChange={handleChangeStatus}
                         >
+                            <MenuItem value="">Все статусы</MenuItem>
                             {statuses.map((item, i) => (
                                 <MenuItem key={i} style={{ fontFamily: "Inter" }} value={item.value}>{item.value}</MenuItem>
                             ))}
@@ -113,7 +130,12 @@ const AllApplications = () => {
                     </FormControl>
                 </div>
                 <div className={style.searchBar}>
-                    <input type="text" placeholder="Поиск по номеру заказа, компании или ИНН" />
+                    <input
+                        type="text"
+                        placeholder="Поиск по номеру заказа, компании или ИНН"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                    />
                 </div>
             </div>
             <div className={style.container}>
@@ -123,7 +145,7 @@ const AllApplications = () => {
                             <th>Номер заявки</th>
                             <th>Компания</th>
                             <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-                            <th className={style.thRight}>Срок ответа <ArrowDown /></th>
+                            <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
                         </tr>
                     </thead>
                     <tbody>

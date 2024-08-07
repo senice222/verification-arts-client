@@ -207,3 +207,21 @@
     font-weight: 600;
     font-size: 14px;
 }
+@media (max-width: 768px) {
+    .wrapper {
+        width: auto !important;
+    }
+    .searchBar {
+        input {
+            margin-top: 10px;
+            width: 80% !important;
+        }
+    }
+    th {
+        font-size: 13.5px !important;
+    }
+    .active {
+        display: block;
+        text-align: center;
+    }
+}
