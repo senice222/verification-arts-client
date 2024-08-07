@@ -22,15 +22,16 @@ const ActiveApplications = () => {
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
   };
+  const filteredData = Array.isArray(data) ? (
+    data.filter((application) => {
+      const statusMatch = status ? application.status === status : true
+      const searchTermLower = searchTerm.toLowerCase()
+      const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
+      const innMatch = application.inn?.includes(searchTermLower)
 
-  const filteredData = data?.filter((application) => {
-    const statusMatch = status ? application.status === status : true
-    const searchTermLower = searchTerm.toLowerCase()
-    const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
-    const innMatch = application.inn?.includes(searchTermLower)
-
-    return statusMatch && (normalIdMatch || innMatch)
-  })
+      return statusMatch && (normalIdMatch || innMatch)
+    })
+  ) : []
 
   const dateOnChange = (date, id, _id) => {
     try {
@@ -105,7 +106,7 @@ const ActiveApplications = () => {
               <th>Номер заявки</th>
               <th>Компания</th>
               <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа <ArrowDown /></th>
             </tr>
           </thead>
           <tbody>

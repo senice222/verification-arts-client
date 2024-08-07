@@ -56,6 +56,16 @@
       border-radius: 15px;
       box-shadow: 0px 1px 2px 0px #1018280D;
     }
+    .folderDiv2 {
+      margin-left: 15px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      background-color: #FEE4E2;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+    }
     .cross {
       user-select: none;
       cursor: pointer;

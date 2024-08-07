@@ -8,6 +8,7 @@ import CancelModal from '../../components/Modals/CancelModal/CancelModal'
 import { useState } from 'react'
 import ruRU from "antd/es/locale/ru_RU";
 import ClarificationModal from "../../components/Modals/ClarificationModal/ClarificationModal"
+import { DeleteApplication } from "../../components/Modals/DeleteApplication/DeleteApplication";
 import useSWR, { useSWRConfig } from "swr";
 import { useNavigate, useParams } from "react-router-dom";
 import $api, { fetcher, url } from "../../core/axios";
@@ -30,6 +31,7 @@ const DetailedApplication = () => {
   const [comments, setComments] = useState('')
   const [isOpened, setOpened] = useState(false)
   const [isCancel, setCancel] = useState(false)
+  const [deleteApplication, setDeleteApplication] = useState(false)
   const [uploads, setUploads] = useState([]);
   const fileActExtension = data?.fileAct ? getFileExtension(data.fileAct) : '';
   const fileExplain = data?.fileExplain ? getFileExtension(data.fileExplain) : '';
@@ -81,25 +83,6 @@ const DetailedApplication = () => {
     }
   }
 
-  const handleDelete = () => { 
-    try {
-        mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
-          method: "DELETE",
-          body: JSON.stringify({
-            _id: data._id
-          })
-        }))
-        notification.success({
-          message: "Заявка успешно удалена",
-          duration: 1.5,
-          style: { fontFamily: "Inter" }
-        })
-        navigate('/all-applications')
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
   const filesObj = {
     ".pdf": <Pdf />,
     ".docx": <Docs />
@@ -111,6 +94,7 @@ const DetailedApplication = () => {
 
   return (
     <>
+      <DeleteApplication data={data} isOpen={deleteApplication} setOpen={() => setDeleteApplication((prev) => !prev)}/>
       <ClarificationModal data={data} isOpen={isOpened} setOpen={() => setOpened(false)} />
       <CancelModal id={data.owner} productId={data._id} isOpened={isCancel} setOpened={() => setCancel(false)} />
       <div className={styles.DetailedApplication}>
@@ -118,7 +102,7 @@ const DetailedApplication = () => {
 
         <div className={styles.topContainer}>
           <h1>Заявка №{data.normalId}</h1>
-          <button onClick={handleDelete}>Удалить заявку</button>
+          <button onClick={() => setDeleteApplication(true)}>Удалить заявку</button>
         </div>
 
         <hr />
@@ -128,7 +112,7 @@ const DetailedApplication = () => {
           <Alert />
           <div>
             {
-              data.dateAnswer.length > 0 ? (
+              data.dateAnswer ? (
                 <>
                   <h3>Клиент знает срок рассмотрения заявки</h3>
                   <p>

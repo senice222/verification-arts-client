@@ -1,5 +1,5 @@
 import s from "./Modal.module.scss";
-import { Cross, Folder, Plus } from "./Svgs";
+import { Cross, Folder, Plus, Trash } from "./Svgs";
 import { useEffect } from "react";
 
 const Modal = ({ children, isOpened, setOpen, long, icon, text }) => {
@@ -21,8 +21,8 @@ const Modal = ({ children, isOpened, setOpen, long, icon, text }) => {
       >
         <div className={s.topDiv}>
           <div className={s.left}>
-            <div className={s.folderDiv}>
-              {icon === "plus" ? <Plus /> : <Folder />}
+            <div className={`${icon === "delete" ? s.folderDiv2 : s.folderDiv}`}>
+              {icon === "plus" ? <Plus /> : icon === "delete" ? <Trash /> : <Folder />}
             </div>
             <h2>{text && text}</h2>
           </div>

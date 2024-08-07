@@ -35,7 +35,7 @@ const AllApplications = () => {
         setStatus(event.target.value);
     };
 
-    const filteredData = data && (
+    const filteredData = Array.isArray(data) ? (
         data.filter((application) => {
             const statusMatch = status ? application.status === status : true;
             const companyMatch = company ? application.name === company : true;
@@ -46,7 +46,7 @@ const AllApplications = () => {
             ) : true;
             return statusMatch && companyMatch && searchMatch;
         })
-    );
+    ) : [];
 
     const dateOnChange = (date, id, _id) => {
         try {
@@ -105,7 +105,7 @@ const AllApplications = () => {
                             onChange={handleChangeCompany}
                         >
                             <MenuItem value="">Все компании</MenuItem>
-                            {data.map((item, i) => (
+                            {Array.isArray(data) && data.map((item, i) => (
                                 <MenuItem key={i} style={{ fontFamily: "Inter" }} value={item.name}>
                                     {item.name}
                                 </MenuItem>
@@ -145,7 +145,7 @@ const AllApplications = () => {
                             <th>Номер заявки</th>
                             <th>Компания</th>
                             <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-                            <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
+                            <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа <ArrowDown /></th>
                         </tr>
                     </thead>
                     <tbody>
