@@ -1,6 +1,6 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Pdf, Docs } from "./Svgs";
+import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Pdf, Docs, Document } from "./Svgs";
 import { Calendar } from "../../components/Svgs/Svgs";
 import { DatePicker, ConfigProvider, notification } from "antd";
 import UploadButton from "./UploadButton/UploadButton"
@@ -70,7 +70,7 @@ const DetailedApplication = () => {
         }
       })
       notification.success({
-        message: "Заявка успешно отправлена на уточнение",
+        message: "Заявка успешно рассмотрена",
         duration: 1.5,
         style: { fontFamily: "Inter" }
       })
@@ -94,7 +94,7 @@ const DetailedApplication = () => {
 
   return (
     <>
-      <DeleteApplication data={data} isOpen={deleteApplication} setOpen={() => setDeleteApplication((prev) => !prev)}/>
+      <DeleteApplication data={data} isOpen={deleteApplication} setOpen={() => setDeleteApplication((prev) => !prev)} />
       <ClarificationModal data={data} isOpen={isOpened} setOpen={() => setOpened(false)} />
       <CancelModal id={data.owner} productId={data._id} isOpened={isCancel} setOpened={() => setCancel(false)} />
       <div className={styles.DetailedApplication}>
@@ -231,12 +231,30 @@ const DetailedApplication = () => {
               <div className={styles.logs}>
                 {data && data.history ? (
                   data.history.map((item, index) => (
-                    <div key={index} className={item.type ? styles.questionText : styles.log}>
+                    <>
+                      {item.admin && <p style={{ marginLeft: "15px", marginTop: "10px", color: "#344054" }}>{item.admin}</p>}
+                      <div key={index} className={item.type ? styles.questionText : styles.log}>
 
-                      {item.status === 'answer' ? item.combinedClarifications && (
-                        <Clarifications clarificationsAnswer={item.combinedClarifications} />
-                      ) : <h3>{item.label}</h3>}
-                    </div>
+                        {item.status === 'answer' ? item.combinedClarifications && (
+                          <Clarifications clarificationsAnswer={item.combinedClarifications} />
+                        ) :
+                          <h3>{item.label}</h3>
+                        }
+                      </div>
+                      {item.fileUrls && item.fileUrls.length > 0 && (
+                        <div className={styles.fileList} style={{marginLeft: "15px", marginTop: "10px"}}>
+                          {item.admin && <p style={{ margin: "10px 0px", color: "#344054" }}>{item.admin}</p>}
+                          {item.fileUrls.map((fileUrl, fileIndex) => (
+                            <div key={fileIndex} className={styles.fileItem}>
+                              <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+                                <Document />
+                                <div className={styles.fileName}>Файл {fileIndex + 1}</div>
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
                   ))
                 ) : (
                   <p>loading..</p>

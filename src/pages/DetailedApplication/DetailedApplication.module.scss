@@ -450,6 +450,13 @@
         display: flex;
     }
 }
+.fileItem {
+    display: flex;
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
 @media (max-width: 767px) {
     .DetailedApplication {
         padding: 20px;

@@ -6,16 +6,19 @@ import { useSWRConfig } from 'swr';
 import { fetcher, url } from '../../../core/axios';
 import PropTypes from 'prop-types';
 import { notification } from 'antd';
+import {useSelector} from 'react-redux'
 
 const ClarificationModal = ({ data, isOpen, setOpen }) => {
   const { mutate } = useSWRConfig()
   const [comments, setComments] = useState('')
   const [uploads, setUploads] = useState([])
+  const login = useSelector(state => state.admin.data.login)
 
   const handleClarification = async () => {
     const formData = new FormData()
     formData.append('_id', data._id)
     formData.append('text', comments)
+    formData.append('admin', login)
     uploads.forEach((file) => formData.append('files', file.file))
 
     try {
