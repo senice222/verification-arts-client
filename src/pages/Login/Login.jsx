@@ -18,14 +18,19 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const admin = useSelector((state) => state.admin);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (login && password) {
-      setLoading(true)
-      dispatch(fetchAuth({ login, password }));
-      setLoading(false)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      if (login && password) {
+        dispatch(fetchAuth({ login, password })) 
+      }
+    } catch (error) {
+      console.error("Ошибка авторизации:", error)
+    } finally {
+      setLoading(false) 
     }
-  };
+  }
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
