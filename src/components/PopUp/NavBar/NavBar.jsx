@@ -5,15 +5,18 @@ import { useNavigate } from "react-router-dom";
 import settings from "../../../assets/settings-01.png";
 import user from "../../../assets/user-01.png";
 import logout1 from "../../../assets/log-out-01.png";
-import {Cross} from '../../../components/Modal/Svgs'
-import {useDispatch, useSelector} from 'react-redux'
-import {logout} from '../../../store/slices/Admin.slice'
+import { Cross } from '../../../components/Modal/Svgs'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../../store/slices/Admin.slice'
 import Loader from "../../Loader/Loader";
 
-const NavBarItem = ({ Svg, text, path }) => {
+const NavBarItem = ({ Svg, text, path, setActive }) => {
   const navigate = useNavigate();
   return (
-    <div className={styles.item} onClick={() => navigate(path)}>
+    <div className={styles.item} onClick={() => {
+      navigate(path)
+      setActive(false)
+    }}>
       {Svg}
       <h2>{text}</h2>
     </div>
@@ -33,10 +36,16 @@ const NavBarItemOpenAble = ({ Svg, text }) => {
         <Arrow />
       </div>
       <div className={styles.subCategories}>
-        <div className={styles.sub} onClick={() => navigate("/")}>
+        <div className={styles.sub} onClick={() => {
+          navigate("/")
+          setOpened(false)
+        }}>
           <p>Активные</p>
         </div>
-        <div className={styles.sub} onClick={() => navigate("/finished")}>
+        <div className={styles.sub} onClick={() => {
+          navigate("/finished")
+          setOpened(false)
+        }}>
           <p>Завершённые</p>
         </div>
       </div>
@@ -57,14 +66,16 @@ const NavBar = ({ isActive, setActive }) => {
         <div>
           <h1>Панель актов</h1>
           <div className={styles.items}>
-            
+
             {admin.access.includes('Заявки') && <NavBarItemOpenAble />}
             {admin.access.includes('Заявки') && <NavBarItem
+              setActive={setActive}
               Svg={<DocumentSvg />}
               text={"Заявки"}
               path="/all-applications"
             />}
             {admin.access.includes('Компании') && <NavBarItem
+              setActive={setActive}
               Svg={<Building />}
               text={"Компании"}
               path="/companies"
@@ -72,14 +83,14 @@ const NavBar = ({ isActive, setActive }) => {
           </div>
         </div>
         <div className={styles.settings}>
-        {admin.access.includes('Настройки') && <div
+          {admin.access.includes('Настройки') && <div
             className={styles.itemSettings}
             onClick={() => navigate("/settings")}
           >
             <img src={settings} alt={"/"} />
             <p>Настройки</p>
           </div>}
-          
+
           <div className={styles.admin}>
             <div className={styles.circle}>
               <img src={user} alt="/" />
@@ -97,7 +108,7 @@ const NavBar = ({ isActive, setActive }) => {
           </div>
         </div>
       </div>
-      {isActive && <div onClick={() => setActive(false)} className={styles.cross}><Cross /></div>    }
+      {isActive && <div onClick={() => setActive(false)} className={styles.cross}><Cross /></div>}
     </div>
   );
 };
