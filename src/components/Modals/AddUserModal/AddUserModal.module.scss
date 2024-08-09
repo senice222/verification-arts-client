@@ -119,5 +119,11 @@
     }
 }
 .active {
+    background-color: #F9F5FF;
     border: 2px solid #9E77ED !important;
+}
+@media (max-width: 768px) {
+    .checkBoxBlock {
+        width: 99% !important;
+    }
 }

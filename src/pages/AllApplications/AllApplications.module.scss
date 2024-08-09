@@ -91,11 +91,19 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     font-weight: 500;
-    margin-top: 20px;   
+    margin-top: 20px;
     thead {
         tr {
             .thRight {
                 text-align: right;
+            }
+        }
+    }
+    tbody {
+        tr {
+            transition: 0.1s;
+            &:hover {
+                background-color: #f9fafb;
             }
         }
     }
@@ -187,9 +195,9 @@
         font-weight: 500;
     }
     .onClarification {
-        background-color: #F9F5FF;
-        color: #6941C6 !important;
-        border: 1px solid #E9D7FE !important;
+        background-color: #f9f5ff;
+        color: #6941c6 !important;
+        border: 1px solid #e9d7fe !important;
         padding: 2px 8px;
         border-radius: 12px;
         font-weight: 500;
@@ -200,7 +208,7 @@
         cursor: pointer;
         margin-top: 3px;
     }
-    
+
     tbody {
         .flexEnd {
             text-align: right;
@@ -215,7 +223,7 @@
     height: 40px;
     width: 155px;
     background-color: white;
-    border: 1px solid #D0D5DD;
+    border: 1px solid #d0d5dd;
     color: #344054;
     display: flex;
     outline: none;

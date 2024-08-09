@@ -105,6 +105,7 @@ const DetailedCompany = () => {
                         onChange={handleChange}
                         style={{ width: 220, height: 44 }}
                         options={[
+                            { value: 'Все статусы', label: 'Все статусы' },
                             { value: 'В работе', label: 'В работе' },
                             { value: 'На уточнении', label: 'На уточнении' },
                             { value: 'Отклонена', label: 'Отклонена' },
@@ -128,7 +129,7 @@ const DetailedCompany = () => {
                                 <th>Номер заявки</th>
                                 <th>Компания</th>
                                 <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-                                <th className={style.thRight}>Срок ответа <ArrowDown /></th>
+                                <th className={style.thRight} style={{paddingRight: "100px"}}>Срок ответа <ArrowDown /></th>
                             </tr>
                         </thead>
                         <tbody>

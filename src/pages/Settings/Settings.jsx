@@ -38,7 +38,7 @@ const Settings = () => {
                     <button onClick={() => {
                         setCurrentAdmin(null)
                         setActive(true)
-                    }}>+ Добавить пользователя</button>
+                    }}>+ Добавить</button>
                 </div>
                 <div className={style.topWrapper}>
                     <p></p>

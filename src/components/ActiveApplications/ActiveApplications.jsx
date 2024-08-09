@@ -125,7 +125,7 @@ const ActiveApplications = () => {
                         <ConfigProvider locale={ruRU}>
                           <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
                         </ConfigProvider>
-                      ) : <button className={style.btnDate}>
+                      ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                         <Calendar />
                         {application.dateAnswer}
                       </button>

@@ -77,7 +77,7 @@ const FinishedApplications = () => {
               <th>Номер заявки</th>
               <th>Компания</th>
               <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight} style={{paddingRight: '114px'}}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа <ArrowDown /></th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +93,7 @@ const FinishedApplications = () => {
                         <ConfigProvider locale={ruRU}>
                           <DatePicker onChange={(date) => dateOnChange(date, item.owner, item._id)} />
                         </ConfigProvider>
-                      ) : <button className={style.btnDate}>
+                      ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                         <Calendar />
                         {item.dateAnswer}
                       </button>

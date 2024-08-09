@@ -27,6 +27,7 @@ import Loader from "../../components/Loader/Loader";
 import StatusDropdown from "./StatusDropdown/StatusDropdown";
 import notific from "../../assets/Screenshot_3.png";
 import Clarifications from "./Clarification/Clarification";
+import HighlightedText from "./HighlightedText/HighlightedText";
 
 const getFileExtension = (url) => {
   const pathname = new URL(url).pathname;
@@ -47,24 +48,24 @@ const DetailedApplication = () => {
   const fileExplain = data?.fileExplain
     ? getFileExtension(data.fileExplain)
     : "";
-    const handleDelete = () => {
-        try {
-            mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
-                method: "DELETE",
-                body: JSON.stringify({
-                    _id: data._id
-                })
-            }))
-            notification.success({
-                message: "Заявка успешно удалена",
-                duration: 1.5,
-                style: { fontFamily: "Inter" }
-            })
-            navigate('/all-applications')
-        } catch (e) {
-            console.log(e)
-        }
+  const handleDelete = () => {
+    try {
+      mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+          _id: data._id
+        })
+      }))
+      notification.success({
+        message: "Заявка успешно удалена",
+        duration: 1.5,
+        style: { fontFamily: "Inter" }
+      })
+      navigate('/all-applications')
+    } catch (e) {
+      console.log(e)
     }
+  }
   const dateOnChange = async (date, ownerId, _id) => {
     try {
       await mutate(
@@ -163,22 +164,22 @@ const DetailedApplication = () => {
         <div className={styles.topContainer} id="topCont">
           <h1>Заявка №{data.normalId}</h1>
           <div className={styles.select}>
-          <Dropdown
-            className={styles.customDropdown}
-            menu={{
-              items,
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                {data.status === "Рассмотрена" && (
-                  <div className={styles.dots}>
-                    <Dots />
-                  </div>
-                )}
-              </Space>
-            </a>
-          </Dropdown>
+            <Dropdown
+              className={styles.customDropdown}
+              menu={{
+                items,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  {data.status === "Рассмотрена" && (
+                    <div className={styles.dots}>
+                      <Dots />
+                    </div>
+                  )}
+                </Space>
+              </a>
+            </Dropdown>
           </div>
         </div>
 
@@ -236,6 +237,7 @@ const DetailedApplication = () => {
                 {!data.dateAnswer ? (
                   <ConfigProvider locale={ruRU}>
                     <DatePicker
+                      inputReadOnly
                       onChange={(date) =>
                         dateOnChange(date, data.owner, data._id)
                       }
@@ -350,7 +352,13 @@ const DetailedApplication = () => {
                       )}
                       <div
                         key={index}
-                        className={item.type ? styles.questionText : styles.log}
+                        className={
+                          item.status
+                            ? styles.statusStyle // Если item.status присутствует, применяем этот стиль
+                            : item.type
+                              ? styles.questionText // Если item.type присутствует, применяем этот стиль
+                              : styles.log // Если ни одно из условий не выполнено, применяем этот стиль
+                        }
                       >
                         {item.status === "answer" ? (
                           item.combinedClarifications && (
@@ -359,7 +367,7 @@ const DetailedApplication = () => {
                             />
                           )
                         ) : (
-                          <h3>{item.label}</h3>
+                          <HighlightedText text={item.label} />
                         )}
                       </div>
                       {item.fileUrls && item.fileUrls.length > 0 && (

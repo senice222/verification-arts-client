@@ -4,6 +4,7 @@ import PopUp from "../../components/PopUp/PopUp";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth, fetchAuthMe } from "../../store/slices/Admin.slice";
+import { ClipLoader } from "react-spinners";
 
 const Login = () => {
   const [login, setLogin] = useState("");
@@ -14,14 +15,15 @@ const Login = () => {
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const admin = useSelector((state) => state.admin);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login:", login, "Password:", password);
-
     if (login && password) {
+      setLoading(true)
       dispatch(fetchAuth({ login, password }));
+      setLoading(false)
     }
   };
   useEffect(() => {
@@ -30,6 +32,7 @@ const Login = () => {
       dispatch(fetchAuthMe())
     }
   }, [])
+
   useEffect(() => {
     if (admin.error) {
       setText({
@@ -80,7 +83,11 @@ const Login = () => {
               />
             </div>
             <button type="submit" className={styles.submitButton}>
-              Войти
+              {loading ? (
+                <ClipLoader size={20} color={'#ffffff'} loading={true} />
+              ) : (
+                <p>Войти</p>
+              )}
             </button>
           </form>
           <p className={styles.note}>

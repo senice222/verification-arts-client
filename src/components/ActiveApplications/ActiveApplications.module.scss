@@ -95,6 +95,14 @@
             }
         }
     }
+    tbody {
+        tr {
+            transition: 0.1s;
+            &:hover {
+                background-color: #f9fafb;
+            }
+        }
+    }
     th,
     td {
         padding: 10px;
@@ -218,14 +226,17 @@
     .wrapper {
         width: auto !important;
     }
+    .flexEnd {
+        text-align: center !important;
+    }
     .searchBar {
         input {
             margin-top: 10px;
             width: 99% !important;
         }
     }
-    .active {
+    .active, .onClarification {
         display: block;
-        text-align: center;
+        font-size: 13px !important;
     }
 }

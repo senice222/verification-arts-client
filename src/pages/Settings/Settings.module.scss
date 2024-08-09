@@ -22,11 +22,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border: 2px solid;
+            border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
             background-color: #7f56d9;
             color: #ffffff;
+            font-weight: 600;
             padding: 10px 14px;
-            border: 0;
-            width: 224px;
+            width: 124px;
+            box-shadow: 0px 1px 2px 0px #1018280d;
+            box-shadow: 0px -2px 0px 0px #1018280d inset;
+            box-shadow: 0px 0px 0px 1px #1018282e inset;
             height: 40px;
             border-radius: 8px;
             cursor: pointer;

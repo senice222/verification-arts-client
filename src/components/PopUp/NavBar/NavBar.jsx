@@ -91,7 +91,7 @@ const NavBar = ({ isActive, setActive }) => {
             }}
           >
             <img src={settings} alt={"/"} />
-            <p>Настройки</p>
+            <p className={styles.settingsText}>Настройки ролей</p>
           </div>}
 
           <div className={styles.admin}>

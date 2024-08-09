@@ -17,7 +17,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
     const [roles, setRoles] = useState(false);
     const [blocked, setBlocked] = useState(false)
     const {mutate} = useSWRConfig()
-    console.log(admin)
+
     useEffect(() => {
         if (admin === null) {
             setFullName('')
@@ -40,6 +40,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setBlocked(true)
         }
     }, [admin])
+
     const handleCreate = async () => {
         if (!admin) {
             const bodyParams = {
@@ -51,10 +52,19 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             if (roles) bodyParams.access.push("Настройки");
     
     
-            const {data} = await mutate(`${url}/admins`, fetcher(`${url}/admin/create`, {
+            await mutate(`${url}/admins`, fetcher(`${url}/admin/create`, {
                 method: "POST",
                 body: JSON.stringify(bodyParams)
             }))
+            setFullName('')
+            setUsername('')
+            setPassword('')
+            setComment('')
+            setMail(false)
+            setApplication(false)
+            setCompany(false)
+            setRoles(false)
+            setBlocked(false)
             setActive()
         } else {
             const bodyParams = {
@@ -65,7 +75,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             if (company) bodyParams.access.push("Компании");
             if (roles) bodyParams.access.push("Настройки");
 
-            const {data} = await mutate(`${url}/admins`, fetcher(`${url}/admin/${admin._id}`, {
+            await mutate(`${url}/admins`, fetcher(`${url}/admin/${admin._id}`, {
                 method: "PUT",
                 body: JSON.stringify(bodyParams)
             }))
@@ -74,8 +84,6 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             
         
     };
-
-    // if (!data) return <Loader />
 
     return (
         <Modal
@@ -128,31 +136,31 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                 <div className={s.textareaDiv}>
                     <h2>Доступ к разделам <span>*</span></h2>
                     <div className={s.checkBoxes}>
-                        <div className={`${s.checkBoxBlock} ${mail ? s.active : ''}`}>
+                        <div className={`${s.checkBoxBlock} ${mail ? s.active : ''}`} onClick={() => setMail((value) => !value)}>
                             <div className={s.topContainer}>
                                 <h5>Почта</h5>
-                                <CheckBox value={mail} setChecked={setMail} />
+                                <CheckBox value={mail} />
                             </div>
                             <p>Возможность ответа на заявки, выставление даты ответа</p>
                         </div>
-                        <div className={`${s.checkBoxBlock} ${application ? s.active : ''}`}>
+                        <div className={`${s.checkBoxBlock} ${application ? s.active : ''}`} onClick={() => setApplication((value) => !value)}> 
                             <div className={s.topContainer}>
                                 <h5>Заявки</h5>
-                                <CheckBox value={application} setChecked={setApplication} />
+                                <CheckBox value={application} />
                             </div>
                             <p>Просмотр заявок и ответов, выставление даты ответа</p>
                         </div>
-                        <div className={`${s.checkBoxBlock} ${company ? s.active : ''}`}>
+                        <div className={`${s.checkBoxBlock} ${company ? s.active : ''}`} onClick={() => setCompany((value) => !value)}>
                             <div className={s.topContainer}>
                                 <h5>Компании</h5>
-                                <CheckBox value={company} setChecked={setCompany} />
+                                <CheckBox value={company} />
                             </div>
                             <p>Просмотр зарегистрированных компаний и заявок по ним</p>
                         </div>
-                        <div className={`${s.checkBoxBlock} ${roles ? s.active : ''}`}>
+                        <div className={`${s.checkBoxBlock} ${roles ? s.active : ''}`} onClick={() => setRoles((value) => !value)}>
                             <div className={s.topContainer}>
                                 <h5>Настройки ролей</h5>
-                                <CheckBox value={roles} setChecked={setRoles} />
+                                <CheckBox value={roles} />
                             </div>
                             <p>Возможность добавления новых пользователей.</p>
                         </div>

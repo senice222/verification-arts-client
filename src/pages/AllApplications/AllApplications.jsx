@@ -105,9 +105,9 @@ const AllApplications = () => {
                             onChange={handleChangeCompany}
                         >
                             <MenuItem value="">Все компании</MenuItem>
-                            {Array.isArray(data) && data.map((item, i) => (
-                                <MenuItem key={i} style={{ fontFamily: "Inter" }} value={item.name}>
-                                    {item.name}
+                            {Array.isArray(data) && [...new Set(data.map(item => item.name))].map((name, i) => (
+                                <MenuItem key={i} style={{ fontFamily: "Inter" }} value={name}>
+                                    {name}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -150,7 +150,7 @@ const AllApplications = () => {
                     </thead>
                     <tbody>
                         {filteredData.map((application, i) => (
-                            <tr key={i}>
+                            <tr key={i} onClick={() => navigate(`/application/${application._id}`)}>
                                 <td >№{application.normalId}</td>
                                 <td >{application.name}<br /> <span>ИНН {application.inn}</span></td>
                                 <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
@@ -161,12 +161,12 @@ const AllApplications = () => {
                                                 <ConfigProvider locale={ruRU}>
                                                     <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
                                                 </ConfigProvider>
-                                            ) : <button className={style.btnDate}>
+                                            ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                 <Calendar />
                                                 {application.dateAnswer}
                                             </button>
                                         }
-                                        <button className={style.next} onClick={() => navigate(`/application/${application._id}`)}>
+                                        <button className={style.next}>
                                             <svg
                                                 width={20}
                                                 height={20}

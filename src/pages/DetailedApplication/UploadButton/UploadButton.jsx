@@ -59,12 +59,6 @@ const UploadButton = ({uploads, setUploads}) => {
     });
   };
 
-  const allowedMimeTypes = [
-    "application/pdf",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  ];
-
   const formatBytes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -80,7 +74,6 @@ const UploadButton = ({uploads, setUploads}) => {
         <input
           type="file"
           multiple
-          accept={allowedMimeTypes}
           className={styles.input}
           ref={fileInputRef}
           onChange={handleFileUpload}
@@ -104,7 +97,7 @@ const UploadButton = ({uploads, setUploads}) => {
             </svg>
           </div>
           <p className={styles.text}>
-            <span>Нажмите, чтобы загрузить</span> или перетащите сюда файлы
+            <span>Нажмите, чтобы загрузить</span>
           </p>
         </div>
       </div>
