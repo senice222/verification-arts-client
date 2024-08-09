@@ -23,14 +23,16 @@ const ActiveApplications = () => {
     setStatus(event.target.value);
   };
   const filteredData = Array.isArray(data) ? (
-    data.filter((application) => {
-      const statusMatch = status ? application.status === status : true
-      const searchTermLower = searchTerm.toLowerCase()
-      const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
-      const innMatch = application.inn?.includes(searchTermLower)
+    data
+      .filter(application => application.status !== 'Рассмотрена') 
+      .filter((application) => {
+        const statusMatch = status ? application.status === status : true
+        const searchTermLower = searchTerm.toLowerCase()
+        const normalIdMatch = application.normalId?.toString().includes(searchTermLower)
+        const innMatch = application.inn?.includes(searchTermLower)
 
-      return statusMatch && (normalIdMatch || innMatch)
-    })
+        return statusMatch && (normalIdMatch || innMatch)
+      })
   ) : []
 
   const dateOnChange = (date, id, _id) => {

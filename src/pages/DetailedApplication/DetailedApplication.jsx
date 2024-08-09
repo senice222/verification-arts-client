@@ -102,7 +102,7 @@ const DetailedApplication = () => {
 
         <div className={styles.topContainer}>
           <h1>Заявка №{data.normalId}</h1>
-          <button onClick={() => setDeleteApplication(true)}>Удалить заявку</button>
+          {data.status === "Рассмотрена" && <button onClick={() => setDeleteApplication(true)}>Удалить заявку</button>}
         </div>
 
         <hr />
@@ -198,7 +198,7 @@ const DetailedApplication = () => {
                   </div>
                 </>
               ) : (
-                <button className={styles.cancelledBtn}><ArrowLeft /> Заявка закрыта</button>
+                <button className={styles.cancelledBtn}><ArrowLeft />{data.status === "На уточнении" ? "Заявка на уточнении" : "Заявка закрыта"}</button>
               )
             }
           </div>

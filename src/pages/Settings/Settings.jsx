@@ -4,24 +4,31 @@ import style from './Settings.module.scss'
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, url } from "../../core/axios";
 import SettingsModal from '../../components/Modals/AddUserModal/AddUserModal'
+import { useSelector } from 'react-redux';
+import Loader from '../../components/Loader/Loader';
 
 const Settings = () => {
     const [active, setActive] = useState(false)
-    const { mutate } = useSWRConfig()
     const [currentAdmin, setCurrentAdmin] = useState(null)
     const { data } = useSWR(`${url}/admins`, fetcher)
     const [searchInput, setSearchInput] = useState('');
+    const admin = useSelector(state => state.admin.data)
+    const { mutate } = useSWRConfig()
 
     const handleDelete = async (id) => {
         await mutate(`${url}/admins`, fetcher(`${url}/admin/${id}`, {
             method: "DELETE",
         }))
     }
+
     const filteredData = data && (
         data.filter(item =>
             item.login.toLowerCase().includes(searchInput.toLowerCase())
         )
     )
+
+    if (!admin) return <Loader />
+
     return (
         <>
             <SettingsModal admin={currentAdmin} isActive={active} setActive={() => setActive((prev) => !prev)} />
@@ -66,7 +73,7 @@ const Settings = () => {
                                 </td>
                                 <td>
                                     <div className={style.itemsPencil}>
-                                        <div onClick={() => handleDelete(item._id)}><Trash /></div>
+                                        {item._id !== admin._id && <div onClick={() => handleDelete(item._id)}><Trash /></div>}
                                         <div onClick={() => {
                                             setCurrentAdmin(item)
                                             setActive(true)

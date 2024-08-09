@@ -1,5 +1,6 @@
 .layout {
     display: flex;
+    min-height: 100vh;
     @media (max-width: 880px) {
         flex-direction: column;
     }
