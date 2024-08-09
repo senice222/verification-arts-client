@@ -246,7 +246,7 @@ const DetailedApplication = () => {
                           {item.admin && <p style={{ margin: "10px 0px", color: "#344054" }}>{item.admin}</p>}
                           {item.fileUrls.map((fileUrl, fileIndex) => (
                             <div key={fileIndex} className={styles.fileItem}>
-                              <a href={`${url}/uploads/${fileUrl}`} target="_blank" rel="noopener noreferrer">
+                              <a href={fileUrl} target="_blank" rel="noopener noreferrer">
                                 <Document />
                                 <div className={styles.fileName}>Файл {fileIndex + 1}</div>
                               </a>
