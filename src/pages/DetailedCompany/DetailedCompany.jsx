@@ -68,7 +68,7 @@ const DetailedCompany = () => {
 
     return (
         <div className={style.DetailedApplication}>
-            <PathComponent first={"Входящие заявки"} second={"Заявка №12312944"} />
+            <PathComponent first={"На компании"} path={"/companies"} second={"Заявка №12312944"} />
             <div className={style.topContainer}>
                 <h1>Профиль компании {data[0].name}</h1>
             </div>

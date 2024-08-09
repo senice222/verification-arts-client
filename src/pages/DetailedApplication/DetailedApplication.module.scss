@@ -462,6 +462,65 @@
 }
 @media (max-width: 767px) {
     .DetailedApplication {
-        padding: 20px;
+        padding: 16px;
     }
 }
+.dots {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 6px;
+    transition: .2s;
+}
+.delete {
+    color: #D92D20;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    svg {
+        margin-right: 6px;
+        path {
+            stroke: #F04438;
+        }
+    }
+}
+.deleteDiv {
+    width: 100%;
+    .textDiv {
+        width: 100%;
+        height: 35px;
+        width: 240px;
+        display: flex;
+        padding: 5px;
+        align-items: center;
+        border-bottom: 1px solid #E4E7EC;
+        p {
+            color: #344054;
+            font-weight: 600;
+            font-size: 14px;
+        }
+    }
+    .delete {
+        padding: 10px 0;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        padding-top: 3px;
+        // padding-left: 10px;
+        border-radius: 6px;
+        color: #D92D20;
+        font-size: 14px;
+        font-weight: 600;
+        transition: .2s;
+        // &:hover {
+        //     background-color: rgb(235, 235, 235);
+        // }
+    }
+}
+.customDropdown .ant-dropdown {
+    padding: 0; /* Убираем отступ */
+  }

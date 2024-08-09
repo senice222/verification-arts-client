@@ -13,4 +13,8 @@ hr {
   margin: 25px 0;
   opacity: .5;
 }
-
+@media (max-width: 770px) {
+  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    /* width: 50% !important; */
+  }
+}

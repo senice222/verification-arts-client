@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./PathComponent.module.scss";
 import { ArrowBack } from "../../pages/DetailedApplication/Svgs.jsx";
 import { useNavigate } from "react-router-dom";
-const PathComponent = ({ first, second }) => {
+const PathComponent = ({ first, second, path }) => {
     const navigate = useNavigate()
     return (
         <>
@@ -10,7 +10,7 @@ const PathComponent = ({ first, second }) => {
                 <ArrowBack /> <h3 onClick={() => navigate('/')}>Back</h3>
             </div>
             <div className={styles.PathComponent}>
-                <div className={styles.firstItem}>{first}</div>
+                <div className={styles.firstItem} onClick={() => navigate(path)}>{first}</div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={6}

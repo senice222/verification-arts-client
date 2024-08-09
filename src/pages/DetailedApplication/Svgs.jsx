@@ -156,8 +156,8 @@ export const Document = () => {
         strokeWidth="1.5"
       />
     </svg>
-  )
-}
+  );
+};
 
 export const Pdf = () => {
   return (
@@ -255,5 +255,38 @@ export const ArrowBack = () => {
         strokeLinejoin="round"
       />
     </svg>
-  )
-}
+  );
+};
+export const Dots = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={4}
+      height={16}
+      viewBox="0 0 4 16"
+      fill="none"
+    >
+      <path
+        d="M1.99984 8.83337C2.46007 8.83337 2.83317 8.46028 2.83317 8.00004C2.83317 7.5398 2.46007 7.16671 1.99984 7.16671C1.5396 7.16671 1.1665 7.5398 1.1665 8.00004C1.1665 8.46028 1.5396 8.83337 1.99984 8.83337Z"
+        stroke="#667085"
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.99984 3.00004C2.46007 3.00004 2.83317 2.62694 2.83317 2.16671C2.83317 1.70647 2.46007 1.33337 1.99984 1.33337C1.5396 1.33337 1.1665 1.70647 1.1665 2.16671C1.1665 2.62694 1.5396 3.00004 1.99984 3.00004Z"
+        stroke="#667085"
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.99984 14.6667C2.46007 14.6667 2.83317 14.2936 2.83317 13.8334C2.83317 13.3731 2.46007 13 1.99984 13C1.5396 13 1.1665 13.3731 1.1665 13.8334C1.1665 14.2936 1.5396 14.6667 1.99984 14.6667Z"
+        stroke="#667085"
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};

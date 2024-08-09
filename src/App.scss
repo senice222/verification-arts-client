@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 body {
     overflow-x: hidden;
 }
@@ -6,7 +6,7 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
 }
 .ant-picker {
     border-color: #7f56d9 !important;
@@ -35,12 +35,20 @@ body {
 .ant-select {
     margin-right: 20px;
 }
-.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper { 
-    max-height: calc(100% - 350px) !important; 
+.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    max-height: calc(100% - 350px) !important;
+}
+.ant-dropdown-menu-item:hover {
+    background-color: white !important;
+}
+.ant-dropdown-menu-item {
+    cursor: default !important;
+    background-color: white !important;
 }
 
 @media (max-width: 768px) {
     .css-1869usk-MuiFormControl-root {
-        margin: 0px !important
+        margin: 0px !important;
+        width: 48%;
     }
 }

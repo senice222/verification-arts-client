@@ -24,7 +24,7 @@ const ActiveApplications = () => {
   };
   const filteredData = Array.isArray(data) ? (
     data
-      .filter(application => application.status !== 'Рассмотрена') 
+      .filter(application => application.status !== 'Рассмотрена')
       .filter((application) => {
         const statusMatch = status ? application.status === status : true
         const searchTermLower = searchTerm.toLowerCase()
@@ -82,11 +82,12 @@ const ActiveApplications = () => {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            style={{ width: "164px", fontFamily: "Inter" }}
+            style={{ width: "100%", fontFamily: "Inter" }}
             value={status}
             label="Статус"
             onChange={handleChangeStatus}
           >
+            <MenuItem value="">Все статусы</MenuItem>
             {statuses.map((item, i) => (
               <MenuItem key={i} style={{ fontFamily: "Inter" }} value={item.value}>{item.value}</MenuItem>
             ))}

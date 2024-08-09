@@ -1,108 +1,185 @@
 import styles from "./DetailedApplication.module.scss";
 import PathComponent from "../../components/PathComponent/PathComponent";
-import { Alert, ArrowLink, Pencil, CrossReport, ArrowLeft, Pdf, Docs, Document } from "./Svgs";
+import {
+  Alert,
+  ArrowLink,
+  Pencil,
+  CrossReport,
+  ArrowLeft,
+  Pdf,
+  Docs,
+  Document,
+  Dots,
+} from "./Svgs";
+import { Trash } from "../../components/Svgs/Svgs";
+import { Dropdown, Space } from "antd";
 import { Calendar } from "../../components/Svgs/Svgs";
 import { DatePicker, ConfigProvider, notification } from "antd";
-import UploadButton from "./UploadButton/UploadButton"
-import CancelModal from '../../components/Modals/CancelModal/CancelModal'
-import { useState } from 'react'
+import UploadButton from "./UploadButton/UploadButton";
+import CancelModal from "../../components/Modals/CancelModal/CancelModal";
+import { useState } from "react";
 import ruRU from "antd/es/locale/ru_RU";
-import ClarificationModal from "../../components/Modals/ClarificationModal/ClarificationModal"
-import { DeleteApplication } from "../../components/Modals/DeleteApplication/DeleteApplication";
+import ClarificationModal from "../../components/Modals/ClarificationModal/ClarificationModal";
 import useSWR, { useSWRConfig } from "swr";
 import { useNavigate, useParams } from "react-router-dom";
 import $api, { fetcher, url } from "../../core/axios";
 import Loader from "../../components/Loader/Loader";
 import StatusDropdown from "./StatusDropdown/StatusDropdown";
-import notific from '../../assets/Screenshot_3.png'
+import notific from "../../assets/Screenshot_3.png";
 import Clarifications from "./Clarification/Clarification";
 
 const getFileExtension = (url) => {
   const pathname = new URL(url).pathname;
-  const ext = pathname.substring(pathname.lastIndexOf('.'));
+  const ext = pathname.substring(pathname.lastIndexOf("."));
   return ext;
-}
+};
 
 const DetailedApplication = () => {
-  const { id } = useParams()
+  const { id } = useParams();
   const { data } = useSWR(`${url}/application/detailed/${id}`, fetcher);
-  const { mutate } = useSWRConfig()
-  const navigate = useNavigate()
-  const [comments, setComments] = useState('')
-  const [isOpened, setOpened] = useState(false)
-  const [isCancel, setCancel] = useState(false)
-  const [deleteApplication, setDeleteApplication] = useState(false)
+  const { mutate } = useSWRConfig();
+  const navigate = useNavigate();
+  const [comments, setComments] = useState("");
+  const [isOpened, setOpened] = useState(false);
+  const [isCancel, setCancel] = useState(false);
   const [uploads, setUploads] = useState([]);
-  const fileActExtension = data?.fileAct ? getFileExtension(data.fileAct) : '';
-  const fileExplain = data?.fileExplain ? getFileExtension(data.fileExplain) : '';
-
-  const dateOnChange = (date, id, _id) => {
+  const fileActExtension = data?.fileAct ? getFileExtension(data.fileAct) : "";
+  const fileExplain = data?.fileExplain
+    ? getFileExtension(data.fileExplain)
+    : "";
+    const handleDelete = () => {
+        try {
+            mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
+                method: "DELETE",
+                body: JSON.stringify({
+                    _id: data._id
+                })
+            }))
+            notification.success({
+                message: "Заявка успешно удалена",
+                duration: 1.5,
+                style: { fontFamily: "Inter" }
+            })
+            navigate('/all-applications')
+        } catch (e) {
+            console.log(e)
+        }
+    }
+  const dateOnChange = async (date, ownerId, _id) => {
     try {
-      mutate(`${url}/application/detailed/${id}`, fetcher(`${url}/application/set-date/${id}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          _id,
-          date: date.toISOString(),
-        }),
-      }))
+      await mutate(
+        `${url}/application/detailed/${id}`,
+        fetcher(`${url}/application/set-date/${ownerId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            _id,
+            date: date.toISOString(),
+          }),
+        })
+      );
       notification.success({
         message: "Дата ответа успешно установлена.",
         duration: 2,
-        style: { fontFamily: "Inter" }
-      })
+        style: { fontFamily: "Inter" },
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
+  const items = [
+    {
+      key: "2",
+      label: (
+        <div className={styles.deleteDiv}>
+          <div className={styles.textDiv}>
+            <p className={styles.text}>Действия с заявкой</p>
+          </div>
+          <p onClick={handleDelete} className={styles.delete}>
+            <Trash />
+            Удалить заявку
+          </p>
+        </div>
+      ),
+    },
+  ];
   const handleAnswer = async () => {
-    const formData = new FormData()
-    formData.append('_id', data._id)
-    formData.append('comments', comments)
-    formData.append('status', "Рассмотрена")
+    const formData = new FormData();
+    formData.append("_id", data._id);
+    formData.append("comments", comments);
+    formData.append("status", "Рассмотрена");
     uploads.forEach((file) => {
-      formData.append('files', file.file)
+      formData.append("files", file.file);
     });
 
     try {
       await $api.put(`/application/reviewed/${data.owner}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      mutate(`${url}/application/detailed/${id}`);
       notification.success({
         message: "Заявка успешно рассмотрена",
         duration: 1.5,
-        style: { fontFamily: "Inter" }
-      })
+        style: { fontFamily: "Inter" },
+      });
     } catch (e) {
-      console.error('Upload failed:', e)
+      console.error("Upload failed:", e);
       notification.error({
         message: "Ошибка при отправке заявки",
-        description: e.message
-      })
+        description: e.message,
+      });
     }
-  }
+  };
 
   const filesObj = {
     ".pdf": <Pdf />,
-    ".docx": <Docs />
-  }
-  const actFile = filesObj[fileActExtension]
-  const explainFile = filesObj[fileExplain]
+    ".docx": <Docs />,
+  };
+  const actFile = filesObj[fileActExtension];
+  const explainFile = filesObj[fileExplain];
 
-  if (!data) return <Loader />
-
+  if (!data) return <Loader />;
   return (
     <>
-      <DeleteApplication data={data} isOpen={deleteApplication} setOpen={() => setDeleteApplication((prev) => !prev)} />
-      <ClarificationModal data={data} isOpen={isOpened} setOpen={() => setOpened(false)} />
-      <CancelModal id={data.owner} productId={data._id} isOpened={isCancel} setOpened={() => setCancel(false)} />
+      <ClarificationModal
+        data={data}
+        isOpen={isOpened}
+        setOpen={() => setOpened(false)}
+      />
+      <CancelModal
+        id={data.owner}
+        productId={data._id}
+        isOpened={isCancel}
+        setOpened={() => setCancel(false)}
+      />
       <div className={styles.DetailedApplication}>
-        <PathComponent first={"Входящие заявки"} second={`Заявка ${data.normalId}`} />
+        <PathComponent
+          first={"На заявки"}
+          path={"/all-applications"}
+          second={`Заявка ${data.normalId}`}
+        />
 
-        <div className={styles.topContainer}>
+        <div className={styles.topContainer} id="topCont">
           <h1>Заявка №{data.normalId}</h1>
-          {data.status === "Рассмотрена" && <button onClick={() => setDeleteApplication(true)}>Удалить заявку</button>}
+          <div className={styles.select}>
+          <Dropdown
+            className={styles.customDropdown}
+            menu={{
+              items,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                {data.status === "Рассмотрена" && (
+                  <div className={styles.dots}>
+                    <Dots />
+                  </div>
+                )}
+              </Space>
+            </a>
+          </Dropdown>
+          </div>
         </div>
 
         <hr />
@@ -111,36 +188,39 @@ const DetailedApplication = () => {
         <div className={styles.alertBox}>
           <Alert />
           <div>
-            {
-              data.dateAnswer ? (
-                <>
-                  <h3>Клиент знает срок рассмотрения заявки</h3>
-                  <p>
-                    Срок ответа установлен до {data.dateAnswer}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <h3>Клиент пока не знает срок рассмотрения заявки</h3>
-                  <p>
-                    Установите срок ответа ниже, чтобы передать заявку на рассмотрение.
-                  </p>
-                </>
-              )
-            }
+            {data.dateAnswer ? (
+              <>
+                <h3>Клиент знает срок рассмотрения заявки</h3>
+                <p>Срок ответа установлен до {data.dateAnswer}</p>
+              </>
+            ) : (
+              <>
+                <h3>Клиент пока не знает срок рассмотрения заявки</h3>
+                <p>
+                  Установите срок ответа ниже, чтобы передать заявку на
+                  рассмотрение.
+                </p>
+              </>
+            )}
           </div>
         </div>
         <div className={styles.company}>
           <div className={styles.item}>
             <p className={styles.name}>Компания</p>
-            <div className={styles.linkBlock} onClick={() => navigate(`/companies/${data.inn}`)}>
+            <div
+              className={styles.linkBlock}
+              onClick={() => navigate(`/companies/${data.inn}`)}
+            >
               <p className={styles.companyName}>{data.name}</p>
               <ArrowLink />
             </div>
           </div>
           <div className={styles.item}>
             <p className={styles.name}>ИНН</p>
-            <div className={styles.linkBlock} onClick={() => navigate(`/all-applications?inn=${data.inn}`)}>
+            <div
+              className={styles.linkBlock}
+              onClick={() => navigate(`/all-applications?inn=${data.inn}`)}
+            >
               <p className={styles.companyName}>{data.inn}</p>
               <ArrowLink />
             </div>
@@ -153,16 +233,20 @@ const DetailedApplication = () => {
             <p className={styles.name}>Срок ответа</p>
             <div className={styles.linkBlock}>
               <div className={styles.dateWrapper}>
-                {
-                  !data.dateAnswer ? (
-                    <ConfigProvider locale={ruRU}>
-                      <DatePicker onChange={(date) => dateOnChange(date, data.owner, data._id)} />
-                    </ConfigProvider>
-                  ) : <button className={styles.btnDate}>
+                {!data.dateAnswer ? (
+                  <ConfigProvider locale={ruRU}>
+                    <DatePicker
+                      onChange={(date) =>
+                        dateOnChange(date, data.owner, data._id)
+                      }
+                    />
+                  </ConfigProvider>
+                ) : (
+                  <button className={styles.btnDate}>
                     <Calendar />
                     {data.dateAnswer}
                   </button>
-                }
+                )}
               </div>
             </div>
           </div>
@@ -171,36 +255,47 @@ const DetailedApplication = () => {
           <div className={styles.report}>
             <h2>Отправить ответ</h2>
             <hr />
-            {
-              (data.status !== "Отклонена" && data.status !== "Рассмотрена" && data.status !== "На уточнении") ? (
-                <>
-                  <div className={styles.btns}>
-                    <button onClick={() => setOpened(true)} className={styles.whiteBtn}>
-                      <Pencil /> На уточнение
-                    </button>
-                    <button onClick={() => setCancel(true)} className={styles.redBtn}>
-                      <CrossReport /> Отклонить заявку
-                    </button>
+            {data.status !== "Отклонена" &&
+              data.status !== "Рассмотрена" &&
+              data.status !== "На уточнении" ? (
+              <>
+                <div className={styles.btns}>
+                  <button
+                    onClick={() => setOpened(true)}
+                    className={styles.whiteBtn}
+                  >
+                    <Pencil /> На уточнение
+                  </button>
+                  <button
+                    onClick={() => setCancel(true)}
+                    className={styles.redBtn}
+                  >
+                    <CrossReport /> Отклонить заявку
+                  </button>
+                </div>
+                <div className={styles.firstBlock}>
+                  <UploadButton uploads={uploads} setUploads={setUploads} />
+                  <div className={styles.textareaDiv}>
+                    <h2>Комментарий</h2>
+                    <textarea
+                      value={comments}
+                      onChange={(e) => setComments(e.target.value)}
+                      placeholder="Введите описание"
+                    />
                   </div>
-                  <div className={styles.firstBlock}>
-                    <UploadButton uploads={uploads} setUploads={setUploads} />
-                    <div className={styles.textareaDiv}>
-                      <h2>Комментарий</h2>
-                      <textarea
-                        value={comments}
-                        onChange={(e) => setComments(e.target.value)}
-                        placeholder="Введите описание"
-                      />
-                    </div>
-                    <button className={styles.finalBtn} onClick={handleAnswer}>
-                      <ArrowLeft /> Отправить ответ и закрыть заявку
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <button className={styles.cancelledBtn}><ArrowLeft />{data.status === "На уточнении" ? "Заявка на уточнении" : "Заявка закрыта"}</button>
-              )
-            }
+                  <button className={styles.finalBtn} onClick={handleAnswer}>
+                    <ArrowLeft /> Отправить ответ и закрыть заявку
+                  </button>
+                </div>
+              </>
+            ) : (
+              <button className={styles.cancelledBtn}>
+                <ArrowLeft />
+                {data.status === "На уточнении"
+                  ? "Заявка на уточнении"
+                  : "Заявка закрыта"}
+              </button>
+            )}
           </div>
           <div className={styles.reportChanges}>
             <h2>Изменения по заявке</h2>
@@ -210,7 +305,12 @@ const DetailedApplication = () => {
                 {actFile}
                 <div>
                   <p className={styles.actName}>Акт{fileActExtension}</p>
-                  <p className={styles.download} onClick={() => window.open(data.fileAct)}>Скачать</p>
+                  <p
+                    className={styles.download}
+                    onClick={() => window.open(data.fileAct)}
+                  >
+                    Скачать
+                  </p>
                 </div>
               </div>
             </div>
@@ -220,7 +320,12 @@ const DetailedApplication = () => {
                 {explainFile}
                 <div>
                   <p className={styles.actName}>Пояснения{fileExplain}</p>
-                  <p className={styles.download} onClick={() => window.open(data.fileExplain)}>Скачать</p>
+                  <p
+                    className={styles.download}
+                    onClick={() => window.open(data.fileExplain)}
+                  >
+                    Скачать
+                  </p>
                 </div>
               </div>
             </div>
@@ -232,23 +337,52 @@ const DetailedApplication = () => {
                 {data && data.history ? (
                   data.history.map((item, index) => (
                     <>
-                      {item.admin && <p style={{ marginLeft: "15px", marginTop: "10px", color: "#344054" }}>{item.admin}</p>}
-                      <div key={index} className={item.type ? styles.questionText : styles.log}>
-
-                        {item.status === 'answer' ? item.combinedClarifications && (
-                          <Clarifications clarificationsAnswer={item.combinedClarifications} />
-                        ) :
+                      {item.admin && (
+                        <p
+                          style={{
+                            marginLeft: "15px",
+                            marginTop: "10px",
+                            color: "#344054",
+                          }}
+                        >
+                          {item.admin}
+                        </p>
+                      )}
+                      <div
+                        key={index}
+                        className={item.type ? styles.questionText : styles.log}
+                      >
+                        {item.status === "answer" ? (
+                          item.combinedClarifications && (
+                            <Clarifications
+                              clarificationsAnswer={item.combinedClarifications}
+                            />
+                          )
+                        ) : (
                           <h3>{item.label}</h3>
-                        }
+                        )}
                       </div>
                       {item.fileUrls && item.fileUrls.length > 0 && (
-                        <div className={styles.fileList} style={{marginLeft: "15px", marginTop: "10px"}}>
-                          {item.admin && <p style={{ margin: "10px 0px", color: "#344054" }}>{item.admin}</p>}
+                        <div
+                          className={styles.fileList}
+                          style={{ marginLeft: "15px", marginTop: "10px" }}
+                        >
+                          {item.admin && (
+                            <p style={{ margin: "10px 0px", color: "#344054" }}>
+                              {item.admin}
+                            </p>
+                          )}
                           {item.fileUrls.map((fileUrl, fileIndex) => (
                             <div key={fileIndex} className={styles.fileItem}>
-                              <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+                              <a
+                                href={fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
                                 <Document />
-                                <div className={styles.fileName}>Файл {fileIndex + 1}</div>
+                                <div className={styles.fileName}>
+                                  Файл {fileIndex + 1}
+                                </div>
                               </a>
                             </div>
                           ))}
@@ -261,18 +395,16 @@ const DetailedApplication = () => {
                 )}
               </div>
 
-              {
-                data.status === 'На уточнении' && (
-                  <div className={styles.closedDivText}>
-                    <img src={notific} alt='/' />
-                    <p>Уточнения появятся здесь</p>
-                  </div>
-                )
-              }
+              {data.status === "На уточнении" && (
+                <div className={styles.closedDivText}>
+                  <img src={notific} alt="/" />
+                  <p>Уточнения появятся здесь</p>
+                </div>
+              )}
             </div>
             {(data.status === "Отклонена" || data.status === "Рассмотрена") && (
               <div className={styles.closedDivText}>
-                <img src={notific} alt='/' />
+                <img src={notific} alt="/" />
                 <p>Заявка закрыта</p>
               </div>
             )}

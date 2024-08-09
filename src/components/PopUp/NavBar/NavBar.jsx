@@ -22,7 +22,7 @@ const NavBarItem = ({ Svg, text, path, setActive }) => {
     </div>
   );
 };
-const NavBarItemOpenAble = ({ Svg, text }) => {
+const NavBarItemOpenAble = ({ Svg, text, setActive }) => {
   const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
 
@@ -38,13 +38,13 @@ const NavBarItemOpenAble = ({ Svg, text }) => {
       <div className={styles.subCategories}>
         <div className={styles.sub} onClick={() => {
           navigate("/")
-          setOpened(false)
+          setActive(false)
         }}>
           <p>Активные</p>
         </div>
         <div className={styles.sub} onClick={() => {
           navigate("/finished")
-          setOpened(false)
+          setActive(false)
         }}>
           <p>Завершённые</p>
         </div>
@@ -67,7 +67,7 @@ const NavBar = ({ isActive, setActive }) => {
           <h1>Панель актов</h1>
           <div className={styles.items}>
 
-            {admin.access.includes('Заявки') && <NavBarItemOpenAble />}
+            {admin.access.includes('Заявки') && <NavBarItemOpenAble setActive={setActive} />}
             {admin.access.includes('Заявки') && <NavBarItem
               setActive={setActive}
               Svg={<DocumentSvg />}
@@ -85,7 +85,10 @@ const NavBar = ({ isActive, setActive }) => {
         <div className={styles.settings}>
           {admin.access.includes('Настройки') && <div
             className={styles.itemSettings}
-            onClick={() => navigate("/settings")}
+            onClick={() => {
+              navigate("/settings")
+              setActive(false)
+            }}
           >
             <img src={settings} alt={"/"} />
             <p>Настройки</p>
