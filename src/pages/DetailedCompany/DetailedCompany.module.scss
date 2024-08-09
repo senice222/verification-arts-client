@@ -14,18 +14,17 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 15px;
-    border-bottom: 1px solid #E4E7EC;
+    border-bottom: 1px solid #e4e7ec;
     h1 {
         color: #101828;
         font-weight: 600;
         font-size: 30px;
     }
-
 }
 .company {
     margin-top: 35px;
-    border: 1px solid #E4E7EC;
-    background-color: #F9FAFB;
+    border: 1px solid #e4e7ec;
+    background-color: #f9fafb;
     padding: 20px 24px;
     border-radius: 12px;
     display: flex;
@@ -45,7 +44,7 @@
         align-items: center;
         display: flex;
         .companyName {
-            color: #6941C6;
+            color: #6941c6;
             font-size: 16px;
             font-weight: 600;
             margin-top: 5px;
@@ -135,11 +134,11 @@
     }
 }
 .date {
-    background: #FFFFFF;
+    background: #ffffff;
     color: #344054;
     width: 155px;
     height: 40px;
-    border: 1px solid #D0D5DD;
+    border: 1px solid #d0d5dd;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,7 +157,7 @@
     height: 40px;
     width: 155px;
     background-color: white;
-    border: 1px solid #D0D5DD;
+    border: 1px solid #d0d5dd;
     color: #344054;
     display: flex;
     outline: none;
@@ -175,7 +174,7 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     font-weight: 500;
-    margin-top: 20px;   
+    margin-top: 20px;
     thead {
         tr {
             .thRight {
@@ -204,7 +203,6 @@
                 cursor: pointer;
                 border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
             }
-        
         }
         p {
             font-size: 14px;
@@ -263,9 +261,9 @@
         font-weight: 500;
     }
     .onClarification {
-        background-color: #F9F5FF;
-        color: #6941C6 !important;
-        border: 1px solid #E9D7FE !important;
+        background-color: #f9f5ff;
+        color: #6941c6 !important;
+        border: 1px solid #e9d7fe !important;
         padding: 2px 8px;
         border-radius: 12px;
         font-weight: 500;
@@ -275,7 +273,7 @@
         cursor: pointer;
         margin-top: 3px;
     }
-    
+
     tbody {
         .flexEnd {
             text-align: right;
@@ -289,6 +287,11 @@
 
 @media (max-width: 767px) {
     .DetailedApplication {
-        width: 90% !important;
+        padding: 20px;
+    }
+    .searchBar {
+        input {
+            margin-top: 15px;
+        }
     }
 }
