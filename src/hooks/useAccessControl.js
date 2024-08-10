@@ -5,7 +5,8 @@ const pathAccessMap = {
     '/': 'Почта',
     '/finished': 'Почта',
     '/all-applications': 'Заявки',
-    '/companies': 'Компании'
+    '/companies': 'Компании',
+    '/settings': 'superAdmin'
 };
 
 const useAccessControl = (admin) => {

@@ -58,6 +58,7 @@ const NavBar = ({ isActive, setActive }) => {
 
   const admin = useSelector((state) => state.admin.data);
   if (!admin) return <Loader />
+
   return (
     <div
       className={`${styles.navBarWrapper} ${isActive ? styles.activeBg : ""}`}
@@ -83,7 +84,7 @@ const NavBar = ({ isActive, setActive }) => {
           </div>
         </div>
         <div className={styles.settings}>
-          {admin.access.includes('Настройки') && <div
+          {admin.superAdmin && <div
             className={styles.itemSettings}
             onClick={() => {
               navigate("/settings")

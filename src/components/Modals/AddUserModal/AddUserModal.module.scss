@@ -1,15 +1,15 @@
 .firstBlock {
     h2 {
         font-weight: 500 !important;
-        color :#344054 ;
+        color: #344054;
         font-size: 14px;
         span {
-            color: #7F56D9;
+            color: #7f56d9;
         }
     }
     input {
         margin-top: 4px;
-        border: 1px solid #D0D5DD;
+        border: 1px solid #d0d5dd;
         padding: 14px;
         font-size: 16px;
         font-weight: 400;
@@ -18,11 +18,10 @@
         height: 44px;
         resize: none;
         border-radius: 8px;
-
     }
     textarea {
         margin-top: 4px;
-        border: 1px solid #D0D5DD;
+        border: 1px solid #d0d5dd;
         padding: 14px;
         font-size: 16px;
         font-weight: 400;
@@ -31,14 +30,13 @@
         height: 150px;
         resize: none;
         border-radius: 8px;
-
     }
     .finalBtn {
         width: 100%;
         cursor: pointer;
         display: flex;
         border: 0;
-        background-color: #7F56D9;
+        background-color: #7f56d9;
         border-radius: 8px;
         justify-content: center;
         align-items: center;
@@ -46,7 +44,7 @@
         margin-top: 25px;
         font-size: 16px;
         font-weight: 600;
-        color: #FFFFFF;
+        color: #ffffff;
         svg {
             margin-right: 7px;
         }
@@ -67,13 +65,13 @@
         cursor: pointer;
     }
     .whiteBtn {
-        border: 1px solid #D0D5DD;
+        border: 1px solid #d0d5dd;
         background-color: transparent;
         color: #344054;
     }
     .blueBtn {
-        background-color: #7F56D9;
-        color: #FFFFFF;
+        background-color: #7f56d9;
+        color: #ffffff;
     }
 }
 .doubleInputs {
@@ -92,7 +90,7 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    transition: .3s;
+    transition: 0.3s;
     justify-content: space-between;
     margin-top: 10px;
     .checkBoxBlock {
@@ -101,7 +99,7 @@
         min-height: 72px;
         border-radius: 12px;
         padding: 16px;
-        border: 1px solid #E4E7EC;
+        border: 1px solid #e4e7ec;
         .topContainer {
             user-select: none;
             display: flex;
@@ -112,10 +110,31 @@
                 color: #344054;
                 font-weight: 600;
                 font-size: 14px;
-            }   
+            }
         }
         p {
             margin-top: 0 !important;
+        }
+    }
+}
+.warning {
+    display: flex;
+    background-color: white;
+    border: 1px solid #d0d5dd;
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 10px;
+    gap: 10px;
+    .wrapperWarning {
+        h2 {
+            color: #344054;
+            font-weight: 600 !important;
+            font-size: 14px;
+        }
+        p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px
         }
     }
 }
@@ -136,14 +155,14 @@
             color: #344054;
             font-weight: 600;
             font-size: 14px;
-        }  
+        }
         p {
             margin-top: 0 !important;
         }
     }
 }
 .active {
-    border: 2px solid #9E77ED !important;
+    border: 2px solid #9e77ed !important;
 }
 @media (max-width: 768px) {
     .checkBoxBlock {

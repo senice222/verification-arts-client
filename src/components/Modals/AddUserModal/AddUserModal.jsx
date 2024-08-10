@@ -6,6 +6,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { fetcher, url } from "../../../core/axios";
 import Loader from "../../Loader/Loader";
 import { useSelector } from "react-redux";
+import { Warning } from "../../Svgs/Svgs";
 
 const AddUserModal = ({ isActive, setActive, admin }) => {
     const [fullName, setFullName] = useState("");
@@ -96,6 +97,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setActive()
         }
     };
+
     return (
         <Modal
             isOpened={isActive}
@@ -127,6 +129,13 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                         />
                     </div>
                 </div>
+                <div className={s.warning}>
+                    <Warning />
+                    <div className={s.wrapperWarning}>
+                        <h2>Логин и пароль поменять не получится</h2>
+                        <p>Чтобы их изменить, удалите пользователя в таблице и добавьте нового.</p>
+                    </div>
+                </div>
                 <div className={s.textareaDiv}>
                     <h2>Комментарий </h2>
                     <textarea
@@ -136,7 +145,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                     />
                 </div>
                 <div className={s.textareaDiv}>
-                    {admin !== login && (<h2>Доступ к разделам <span>*</span></h2>)}
+                    {admin?.login !== login && (<h2>Доступ к разделам <span>*</span></h2>)}
                     {!isSuper && <div className={s.checkBoxes}>
                         <div className={`${s.checkBoxBlock} ${mail ? s.active : ''}`} onClick={() => setMail((value) => !value)}>
                             <div className={s.topContainer}>
@@ -161,7 +170,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                         </div>
                     </div>}
                     {
-                        admin !== login && (
+                        admin?.login !== login && (
                             <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
                                 <div className={s.checkBOxic}><CheckBox value={isSuper} /></div>
                                 <div className={s.rightDiv}>
