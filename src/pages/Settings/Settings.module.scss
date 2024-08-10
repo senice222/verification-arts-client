@@ -2,11 +2,7 @@
     margin-left: 16px;
     width: 97%;
     margin-top: 20px;
-    .usersTable {
-        tr {
-            min-height: 72px;
-        }
-    }
+    
     .topDiv {
         display: flex;
         justify-content: space-between;
@@ -129,6 +125,7 @@
         border-bottom: 1px solid #ccc;
         color: #101828;
         min-width: 130px;
+        height: 72px;
         div {
             display: flex;
             .next {
