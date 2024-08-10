@@ -71,7 +71,7 @@ const Companies = () => {
                     </thead>
                     <tbody>
                         {filteredData.map((company, index) => (
-                            <tr key={index}>
+                            <tr key={index} onClick={() => navigate(`/companies/${company.inn}`)}>
                                 <td>
                                     {company.name}<br /> <span>ИНН {company.inn}</span>
                                 </td>

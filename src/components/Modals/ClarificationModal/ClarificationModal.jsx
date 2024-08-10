@@ -36,7 +36,7 @@ const ClarificationModal = ({ data, isOpen, setOpen }) => {
       console.log(e)
     }
   }
-
+  const isButtonDisabled = !comments.trim() || uploads.every(upload => !upload.uploaded)
   return (
     <Modal isOpened={isOpen} setOpen={setOpen} long={true}>
       <h2>Передать заявку на уточнение</h2>
@@ -52,7 +52,7 @@ const ClarificationModal = ({ data, isOpen, setOpen }) => {
           <button
             className={s.blueBtn}
             onClick={handleClarification}
-            disabled={uploads.some(upload => !upload.uploaded)}
+            disabled={isButtonDisabled}
           >
             Передать на уточнение
           </button>

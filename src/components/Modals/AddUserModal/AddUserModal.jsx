@@ -5,6 +5,7 @@ import CheckBox from './CheckBox/CheckBox';
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, url } from "../../../core/axios";
 import Loader from "../../Loader/Loader";
+import { useSelector } from "react-redux";
 
 const AddUserModal = ({ isActive, setActive, admin }) => {
     const [fullName, setFullName] = useState("");
@@ -16,8 +17,9 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
     const [company, setCompany] = useState(false);
     const [roles, setRoles] = useState(false);
     const [blocked, setBlocked] = useState(false)
-    const {mutate} = useSWRConfig()
+    const { mutate } = useSWRConfig()
     const [isSuper, setSuper] = useState(false)
+    const login = useSelector(state => state.admin.data.login)
 
     useEffect(() => {
         if (admin === null) {
@@ -47,7 +49,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
     const handleCreate = async () => {
         if (!admin) {
             const bodyParams = {
-                login: username, password: password, comment, access: [], superAdmin : isSuper
+                login: username, password: password, comment, access: [], superAdmin: isSuper
             }
             if (isSuper) {
                 bodyParams.access.push("Почта");
@@ -75,7 +77,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setSuper(false)
         } else {
             const bodyParams = {
-                fio: fullName, login: username, comment, access: [], superAdmin : isSuper,
+                fio: fullName, login: username, comment, access: [], superAdmin: isSuper,
             }
             if (isSuper) {
                 bodyParams.access.push("Почта");
@@ -93,14 +95,11 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             }))
             setActive()
         }
-            
-        
     };
-
     return (
         <Modal
             isOpened={isActive}
-            text={"Добавить пользователя"}
+            text={admin ? "Изменить пользователя" : "Добавить пользователя"}
             setOpen={setActive}
             long={true}
             icon={"plus"}
@@ -137,7 +136,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                     />
                 </div>
                 <div className={s.textareaDiv}>
-                    <h2>Доступ к разделам <span>*</span></h2>
+                    {admin !== login && (<h2>Доступ к разделам <span>*</span></h2>)}
                     {!isSuper && <div className={s.checkBoxes}>
                         <div className={`${s.checkBoxBlock} ${mail ? s.active : ''}`} onClick={() => setMail((value) => !value)}>
                             <div className={s.topContainer}>
@@ -146,7 +145,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                             </div>
                             <p>Возможность ответа на заявки, выставление даты ответа</p>
                         </div>
-                        <div className={`${s.checkBoxBlock} ${application ? s.active : ''}`} onClick={() => setApplication((value) => !value)}> 
+                        <div className={`${s.checkBoxBlock} ${application ? s.active : ''}`} onClick={() => setApplication((value) => !value)}>
                             <div className={s.topContainer}>
                                 <h5>Заявки</h5>
                                 <CheckBox value={application} />
@@ -160,14 +159,18 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                             </div>
                             <p>Просмотр зарегистрированных компаний и заявок по ним</p>
                         </div>
-                    </div> }
-                    <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
-                            <div className={s.checkBOxic}><CheckBox value={isSuper} /></div>
-                            <div className={s.rightDiv}>
-                                <h5>Сделать суперадмином</h5>
-                                <p>У суперадмина есть доступ ко всем разделам панели, и к возможности добавлять и изменять новых пользователей.</p>
+                    </div>}
+                    {
+                        admin !== login && (
+                            <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
+                                <div className={s.checkBOxic}><CheckBox value={isSuper} /></div>
+                                <div className={s.rightDiv}>
+                                    <h5>Сделать суперадмином</h5>
+                                    <p>У суперадмина есть доступ ко всем разделам панели, и к возможности добавлять и изменять новых пользователей.</p>
+                                </div>
                             </div>
-                        </div>
+                        )
+                    }
                 </div>
                 <div className={s.btns}>
                     <button className={s.whiteBtn} onClick={() => setActive(false)}>Отмена</button>

@@ -85,7 +85,14 @@
     margin-bottom: 20px;
     font-weight: 500;
     margin-top: 20px;
-
+    tbody {
+        tr {
+            transition: 0.1s;
+            &:hover {
+                background-color: #f9fafb;
+            }
+        }
+    }
     th,
     td {
         padding: 10px;
