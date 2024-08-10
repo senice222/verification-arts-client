@@ -1,6 +1,6 @@
 import PathComponent from '../../components/PathComponent/PathComponent'
 import style from './DetailedCompany.module.scss'
-import { ArrowLink, ArrowDown } from "../DetailedApplication/Svgs";
+import { ArrowLink } from "../DetailedApplication/Svgs";
 import { Select, DatePicker, ConfigProvider, notification } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -128,8 +128,8 @@ const DetailedCompany = () => {
                             <tr>
                                 <th>Номер заявки</th>
                                 <th>Компания</th>
-                                <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-                                <th className={style.thRight} style={{ paddingRight: "100px" }}>Срок ответа <ArrowDown /></th>
+                                <th className={style.thRight}>Статус заявки</th>
+                                <th className={style.thRight} style={{ paddingRight: "100px" }}>Срок ответа</th>
                             </tr>
                         </thead>
                         <tbody>
