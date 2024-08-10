@@ -38,7 +38,6 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setMail(admin.access.includes("Почта"))
             setApplication(admin.access.includes("Заявки"))
             setCompany(admin.access.includes("Компании"))
-            setRoles(admin.access.includes("Настройки"))
             setBlocked(true)
             setPassword(admin.passwordHash)
             setSuper(admin.superAdmin)
@@ -48,18 +47,16 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
     const handleCreate = async () => {
         if (!admin) {
             const bodyParams = {
-                login: username, password: password, comment, access: [], superAdmin : true
+                login: username, password: password, comment, access: [], superAdmin : isSuper
             }
             if (isSuper) {
                 bodyParams.access.push("Почта");
                 bodyParams.access.push("Заявки");
                 bodyParams.access.push("Компании");
-                bodyParams.access.push("Настройки");
             } else {
                 if (mail) bodyParams.access.push("Почта");
                 if (application) bodyParams.access.push("Заявки");
                 if (company) bodyParams.access.push("Компании");
-                if (roles) bodyParams.access.push("Настройки");
             }
             await mutate(`${url}/admins`, fetcher(`${url}/admin/create`, {
                 method: "POST",
@@ -84,12 +81,10 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                 bodyParams.access.push("Почта");
                 bodyParams.access.push("Заявки");
                 bodyParams.access.push("Компании");
-                bodyParams.access.push("Настройки");
             } else {
                 if (mail) bodyParams.access.push("Почта");
                 if (application) bodyParams.access.push("Заявки");
                 if (company) bodyParams.access.push("Компании");
-                if (roles) bodyParams.access.push("Настройки");
             }
 
             await mutate(`${url}/admins`, fetcher(`${url}/admin/${admin._id}`, {
@@ -143,7 +138,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                 </div>
                 <div className={s.textareaDiv}>
                     <h2>Доступ к разделам <span>*</span></h2>
-                    <div className={s.checkBoxes}>
+                    {!isSuper && <div className={s.checkBoxes}>
                         <div className={`${s.checkBoxBlock} ${mail ? s.active : ''}`} onClick={() => setMail((value) => !value)}>
                             <div className={s.topContainer}>
                                 <h5>Почта</h5>
@@ -165,14 +160,14 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                             </div>
                             <p>Просмотр зарегистрированных компаний и заявок по ним</p>
                         </div>
-                        <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
+                    </div> }
+                    <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
                             <div className={s.checkBOxic}><CheckBox value={isSuper} /></div>
                             <div className={s.rightDiv}>
-                                <h5>Компании</h5>
+                                <h5>Сделать суперадмином</h5>
                                 <p>У суперадмина есть доступ ко всем разделам панели, и к возможности добавлять и изменять новых пользователей.</p>
                             </div>
                         </div>
-                    </div>
                 </div>
                 <div className={s.btns}>
                     <button className={s.whiteBtn} onClick={() => setActive(false)}>Отмена</button>

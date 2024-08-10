@@ -254,8 +254,33 @@
 }
 .roles {
     display: flex;
-    height: 45px;
+    height: 75px !important;
+    align-items: center;
     p {
-        margin-left: 2px;
+        margin-left: 5px;
+    }
+}
+.loginDiv {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-start;
+    .superAdminSign {
+        margin-top: 4px;
+        background-color: #F9F5FF;
+        padding: 2px 8px;
+        border: 1px solid #E9D7FE;
+        width: auto;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        svg {
+            margin-left: 2px;
+            margin-right: 4px;
+        }
+        p {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6941C6;
+        }
     }
 }

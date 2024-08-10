@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Login from "./pages/Login/Login";
+import { NotAllowed } from "./pages/NotAllowed/NotAllowed.jsx";
 import { Provider } from "react-redux";
 import PanelLayout from "./Layout/PanelLayout/PanelLayout.jsx";
 import { store } from "./store/store";
@@ -14,6 +15,7 @@ import Companies from "./pages/Companies/Companies.jsx";
 import AllApplications from "./pages/AllApplications/AllApplications.jsx";
 import DetailedCompany from "./pages/DetailedCompany/DetailedCompany.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/application/:id",
         element: <DetailedApplication />,
+      },
+      {
+        path: "/notAllowed",
+        element: <NotAllowed />,
       },
     ],
   },

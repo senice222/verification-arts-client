@@ -101,7 +101,7 @@ const NavBar = ({ isActive, setActive }) => {
             <div className={styles.info}>
               <div>
                 <h2>{admin.login}</h2>
-                <p>@{admin.login}</p>
+                <p>{admin.superAdmin ? "Суперадмин" : "Админ"}</p>
               </div>
               <img onClick={() => {
                 dispatch(logout())
