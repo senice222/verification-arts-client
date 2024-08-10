@@ -129,13 +129,17 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                         />
                     </div>
                 </div>
-                <div className={s.warning}>
-                    <Warning />
-                    <div className={s.wrapperWarning}>
-                        <h2>Логин и пароль поменять не получится</h2>
-                        <p>Чтобы их изменить, удалите пользователя в таблице и добавьте нового.</p>
-                    </div>
-                </div>
+                {
+                    admin && (
+                        <div className={s.warning}>
+                            <Warning />
+                            <div className={s.wrapperWarning}>
+                                <h2>Логин и пароль поменять не получится</h2>
+                                <p>Чтобы их изменить, удалите пользователя в таблице и добавьте нового.</p>
+                            </div>
+                        </div>
+                    )
+                }
                 <div className={s.textareaDiv}>
                     <h2>Комментарий </h2>
                     <textarea
