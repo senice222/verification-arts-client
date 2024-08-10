@@ -88,11 +88,11 @@ const Login = () => {
               />
             </div>
             <button type="submit" className={styles.submitButton}>
-              {loading ? (
+              {/* {loading ? (
                 <ClipLoader size={20} color={'#ffffff'} loading={true} />
-              ) : (
-                <p>Войти</p>
-              )}
+              ) : ( */}
+                Войти
+              {/* )} */}
             </button>
           </form>
           <p className={styles.note}>

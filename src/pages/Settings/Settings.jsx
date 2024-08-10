@@ -56,7 +56,6 @@ const Settings = () => {
                         <thead>
                             <tr>
                                 <th>Логин</th>
-                                <th>Имя пользователя</th>
                                 <th>Доступ к разделам</th>
                                 <th>Комментарий</th>
                                 <th></th>
@@ -66,8 +65,7 @@ const Settings = () => {
                             {/* {data.map((order: Order) => ( */}
                             {filteredData && filteredData.map((item, i) => <tr key={i}>
                                 <td >{item.login}</td>
-                                <td> {item.fio}</td>
-                                <td>{item.access.map((item, i) => <p key={i}>{item}</p>)}</td>
+                                <td className={style.roles}>{item.access.map((item, i) => <p key={i}>{item}</p>)}</td>
                                 <td>
                                     {item.comment}
                                 </td>

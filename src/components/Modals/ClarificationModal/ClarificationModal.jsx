@@ -6,7 +6,7 @@ import { useSWRConfig } from 'swr';
 import { fetcher, url } from '../../../core/axios';
 import PropTypes from 'prop-types';
 import { notification } from 'antd';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const ClarificationModal = ({ data, isOpen, setOpen }) => {
   const { mutate } = useSWRConfig()
@@ -49,7 +49,13 @@ const ClarificationModal = ({ data, isOpen, setOpen }) => {
         </div>
         <div className={s.btns}>
           <button className={s.whiteBtn} onClick={() => setOpen(false)}>Закрыть</button>
-          <button className={s.blueBtn} onClick={handleClarification}>Передать на уточнение</button>
+          <button
+            className={s.blueBtn}
+            onClick={handleClarification}
+            disabled={uploads.some(upload => !upload.uploaded)}
+          >
+            Передать на уточнение
+          </button>
         </div>
       </div>
     </Modal>

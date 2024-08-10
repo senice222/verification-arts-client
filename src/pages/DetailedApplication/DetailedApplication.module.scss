@@ -25,6 +25,7 @@
         cursor: pointer;
     }
 }
+
 .DetailedApplication {
     width: 100%;
     h2 {
@@ -283,6 +284,10 @@
                 margin-right: 2px;
             }
         }
+    }
+    .finalBtn:disabled {
+        cursor: not-allowed;
+        background-color: gray;
     }
 }
 .closedDivText {

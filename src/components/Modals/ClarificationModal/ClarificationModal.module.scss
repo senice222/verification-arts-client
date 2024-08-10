@@ -61,5 +61,13 @@
     .blueBtn {
         background-color: #7F56D9;
         color: #FFFFFF;
+        transition: .1s;
+        &:hover {
+            background-color: #6941C6;
+        }
+    }
+    .blueBtn:disabled {
+        cursor: not-allowed;
+        background-color: gray;
     }
 }

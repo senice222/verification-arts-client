@@ -1,13 +1,13 @@
 import style from './FinishedApplications.module.scss'
 import { DatePicker, ConfigProvider, notification } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU'
-import { ArrowDown } from '../Svgs/Svgs';
 import useSWR, { useSWRConfig } from 'swr';
 import { fetcher, url } from '../../core/axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Loader from '../Loader/Loader';
 import { Calendar } from '../../pages/DetailedApplication/Svgs';
+import { Tooltip } from 'antd'
 
 const FinishedApplications = () => {
   const { data } = useSWR(`${url}/application/getAll`, fetcher);
@@ -16,7 +16,7 @@ const FinishedApplications = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const filteredData = data?.filter((application) => {
-    const statusMatch = application.status === "Рассмотрена";
+    const statusMatch = application.status === "Рассмотрена" || application.status === "Отклонена";
     const searchTermLower = searchTerm.toLowerCase();
     const normalIdMatch = application.normalId?.toString().includes(searchTermLower);
     const innMatch = application.inn?.toLowerCase().includes(searchTermLower);
@@ -76,13 +76,13 @@ const FinishedApplications = () => {
             <tr>
               <th>Номер заявки</th>
               <th>Компания</th>
-              <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight}>Статус заявки</th>
+              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((item, i) => (
-              <tr key={i}>
+              <tr key={i} onClick={() => navigate(`/application/${item._id}`)}>
                 <td >№{item.normalId}</td>
                 <td >{item.name}<br /> <span>ИНН {item.inn}</span></td>
                 <td className={style.flexEnd}><span className={statusStyles[item.status]}>{item.status}</span></td>
@@ -91,14 +91,19 @@ const FinishedApplications = () => {
                     {
                       !item.dateAnswer ? (
                         <ConfigProvider locale={ruRU}>
-                          <DatePicker onChange={(date) => dateOnChange(date, item.owner, item._id)} />
+                          <DatePicker
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(date) => dateOnChange(date, item.owner, item._id)}
+                          />
                         </ConfigProvider>
-                      ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
-                        <Calendar />
-                        {item.dateAnswer}
-                      </button>
+                      ) : <Tooltip title="Дата уже выставлена" placement="bottom">
+                        <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
+                          <Calendar />
+                          {item.dateAnswer}
+                        </button>
+                      </Tooltip>
                     }
-                    <button className={style.next} onClick={() => navigate(`/application/${item._id}`)}>
+                    <button className={style.next}>
                       <svg
                         width={20}
                         height={20}

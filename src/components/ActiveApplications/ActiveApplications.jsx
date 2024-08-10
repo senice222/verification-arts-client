@@ -1,7 +1,7 @@
 import style from './ActiveApplications.module.scss'
 import { DatePicker, ConfigProvider, notification } from 'antd';
 import ruRU from 'antd/es/locale/ru_RU'
-import { ArrowDown, Calendar } from '../Svgs/Svgs';
+import { Calendar } from '../Svgs/Svgs';
 import { useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader/Loader'
 import useSWR, { useSWRConfig } from 'swr';
@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { fetcher, url } from '../../core/axios';
+import { Tooltip } from 'antd'
 
 const ActiveApplications = () => {
   const [status, setStatus] = useState('')
@@ -24,7 +25,7 @@ const ActiveApplications = () => {
   };
   const filteredData = Array.isArray(data) ? (
     data
-      .filter(application => application.status !== 'Рассмотрена')
+      .filter(application => application.status !== 'Рассмотрена' && application.status !== 'Отклонена')
       .filter((application) => {
         const statusMatch = status ? application.status === status : true
         const searchTermLower = searchTerm.toLowerCase()
@@ -108,13 +109,13 @@ const ActiveApplications = () => {
             <tr>
               <th>Номер заявки</th>
               <th>Компания</th>
-              <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа <ArrowDown /></th>
+              <th className={style.thRight}>Статус заявки</th>
+              <th className={style.thRight} style={{ paddingRight: '114px' }}>Срок ответа</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((application, i) => (
-              <tr key={i}>
+              <tr key={i} onClick={() => navigate(`/application/${application._id}`)}>
                 <td >№{application.normalId}</td>
                 <td >{application.name}<br /> <span>ИНН {application.inn}</span></td>
                 <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
@@ -122,15 +123,20 @@ const ActiveApplications = () => {
                   <div>
                     {
                       !application.dateAnswer ? (
-                        <ConfigProvider locale={ruRU}>
-                          <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
+                        <ConfigProvider locale={ruRU} >
+                          <DatePicker
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(date) => dateOnChange(date, application.owner, application._id)}
+                          />
                         </ConfigProvider>
-                      ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
-                        <Calendar />
-                        {application.dateAnswer}
-                      </button>
+                      ) : <Tooltip title="Дата уже выставлена" placement="bottom">
+                        <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
+                          <Calendar />
+                          {application.dateAnswer}
+                        </button>
+                      </Tooltip>
                     }
-                    <button className={style.next} onClick={() => navigate(`/application/${application._id}`)}>
+                    <button className={style.next}>
                       <svg
                         width={20}
                         height={20}

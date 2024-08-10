@@ -123,12 +123,16 @@
   font-size: 16px;
 }
 .settings {
+
   .itemSettings {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaecf0;
     cursor: pointer;
+    height: 40px;
+    border-radius: 6px;
+    padding: 5px;
+    transition: 0.2s;
+    margin-bottom: 10px;
     img {
       height: 24px;
       width: 24px;
@@ -137,12 +141,17 @@
     p {
       margin-left: 8px;
     }
+    &:hover {
+      background-color: rgb(240, 240, 240);
+    }
   }
 
   .admin {
     display: flex;
-    margin-top: 25px;
+    // margin-top: 25px;
     align-items: center;
+    padding-top: 17px;
+    border-top: 1px solid #eaecf0;
     .circle {
       width: 40px;
       height: 40px;

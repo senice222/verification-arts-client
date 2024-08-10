@@ -129,12 +129,12 @@ const DetailedCompany = () => {
                                 <th>Номер заявки</th>
                                 <th>Компания</th>
                                 <th className={style.thRight}>Статус заявки <ArrowDown /></th>
-                                <th className={style.thRight} style={{paddingRight: "100px"}}>Срок ответа <ArrowDown /></th>
+                                <th className={style.thRight} style={{ paddingRight: "100px" }}>Срок ответа <ArrowDown /></th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredData.map((application, i) => (
-                                <tr key={i}>
+                                <tr key={i} onClick={() => navigate(`/application/${application._id}`)}>
                                     <td>№{application.normalId}</td>
                                     <td>{application.name}<br /> <span>ИНН {application.inn}</span></td>
                                     <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
@@ -145,7 +145,7 @@ const DetailedCompany = () => {
                                                     <ConfigProvider locale={ruRU}>
                                                         <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
                                                     </ConfigProvider>
-                                                ) : <button className={style.btnDate}>
+                                                ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                     <Calendar />
                                                     {application.dateAnswer}
                                                 </button>

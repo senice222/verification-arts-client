@@ -182,6 +182,14 @@
             }
         }
     }
+    tbody {
+        tr {
+            transition: 0.1s;
+            &:hover {
+                background-color: #f9fafb;
+            }
+        }
+    }
     th,
     td {
         padding: 10px;

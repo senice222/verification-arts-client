@@ -2,6 +2,11 @@
     margin-left: 16px;
     width: 97%;
     margin-top: 20px;
+    .usersTable {
+        tr {
+            min-height: 72px;
+        }
+    }
     .topDiv {
         display: flex;
         justify-content: space-between;
@@ -248,5 +253,12 @@
         button {
             width: 70% !important;
         }
+    }
+}
+.roles {
+    display: flex;
+    height: 45px;
+    p {
+        margin-left: 2px;
     }
 }

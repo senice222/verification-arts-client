@@ -62,5 +62,9 @@
     .blueBtn {
         background-color: #D92D20;
         color: #FFFFFF;
+        transition: .1s;
+        &:hover {
+            background-color: #B42318;
+        }
     }
 }

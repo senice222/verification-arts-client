@@ -17,6 +17,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
     const [roles, setRoles] = useState(false);
     const [blocked, setBlocked] = useState(false)
     const {mutate} = useSWRConfig()
+    const [isSuper, setSuper] = useState(false)
 
     useEffect(() => {
         if (admin === null) {
@@ -29,6 +30,7 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setCompany(false)
             setRoles(false)
             setBlocked(false)
+            setSuper(false)
         } else if (admin) {
             setFullName(admin.fio)
             setUsername(admin.login)
@@ -38,20 +40,27 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setCompany(admin.access.includes("Компании"))
             setRoles(admin.access.includes("Настройки"))
             setBlocked(true)
+            setPassword(admin.passwordHash)
+            setSuper(admin.superAdmin)
         }
     }, [admin])
 
     const handleCreate = async () => {
         if (!admin) {
             const bodyParams = {
-                fio: fullName, login: username, password: password, comment, access: []
+                login: username, password: password, comment, access: [], superAdmin : true
             }
-            if (mail) bodyParams.access.push("Почта");
-            if (application) bodyParams.access.push("Заявки");
-            if (company) bodyParams.access.push("Компании");
-            if (roles) bodyParams.access.push("Настройки");
-    
-    
+            if (isSuper) {
+                bodyParams.access.push("Почта");
+                bodyParams.access.push("Заявки");
+                bodyParams.access.push("Компании");
+                bodyParams.access.push("Настройки");
+            } else {
+                if (mail) bodyParams.access.push("Почта");
+                if (application) bodyParams.access.push("Заявки");
+                if (company) bodyParams.access.push("Компании");
+                if (roles) bodyParams.access.push("Настройки");
+            }
             await mutate(`${url}/admins`, fetcher(`${url}/admin/create`, {
                 method: "POST",
                 body: JSON.stringify(bodyParams)
@@ -66,14 +75,22 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             setRoles(false)
             setBlocked(false)
             setActive()
+            setSuper(false)
         } else {
             const bodyParams = {
-                fio: fullName, login: username, comment, access: []
+                fio: fullName, login: username, comment, access: [], superAdmin : isSuper,
             }
-            if (mail) bodyParams.access.push("Почта");
-            if (application) bodyParams.access.push("Заявки");
-            if (company) bodyParams.access.push("Компании");
-            if (roles) bodyParams.access.push("Настройки");
+            if (isSuper) {
+                bodyParams.access.push("Почта");
+                bodyParams.access.push("Заявки");
+                bodyParams.access.push("Компании");
+                bodyParams.access.push("Настройки");
+            } else {
+                if (mail) bodyParams.access.push("Почта");
+                if (application) bodyParams.access.push("Заявки");
+                if (company) bodyParams.access.push("Компании");
+                if (roles) bodyParams.access.push("Настройки");
+            }
 
             await mutate(`${url}/admins`, fetcher(`${url}/admin/${admin._id}`, {
                 method: "PUT",
@@ -94,22 +111,13 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
             icon={"plus"}
         >
             <div className={s.firstBlock}>
-                <div className={s.textareaDiv}>
-                    <h2>
-                        ФИО пользователя <span>*</span>
-                    </h2>
-                    <input
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder={"Иван Иванов"}
-                    />
-                </div>
                 <div className={s.doubleInputs}>
                     <div className={s.textareaDiv}>
                         <h2>
                             Логин <span>*</span>
                         </h2>
                         <input
+                            disabled={blocked}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder={"username"}
@@ -157,12 +165,12 @@ const AddUserModal = ({ isActive, setActive, admin }) => {
                             </div>
                             <p>Просмотр зарегистрированных компаний и заявок по ним</p>
                         </div>
-                        <div className={`${s.checkBoxBlock} ${roles ? s.active : ''}`} onClick={() => setRoles((value) => !value)}>
-                            <div className={s.topContainer}>
-                                <h5>Настройки ролей</h5>
-                                <CheckBox value={roles} />
+                        <div onClick={() => setSuper((value) => !value)} className={s.superAdminBlock}>
+                            <div className={s.checkBOxic}><CheckBox value={isSuper} /></div>
+                            <div className={s.rightDiv}>
+                                <h5>Компании</h5>
+                                <p>У суперадмина есть доступ ко всем разделам панели, и к возможности добавлять и изменять новых пользователей.</p>
                             </div>
-                            <p>Возможность добавления новых пользователей.</p>
                         </div>
                     </div>
                 </div>
