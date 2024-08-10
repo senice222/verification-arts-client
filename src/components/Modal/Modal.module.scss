@@ -159,10 +159,10 @@
 @media (max-width: 400px) {
   .long {
     width: 95vw !important;
-    max-height: 650px;
+    max-height: 400px;
     overflow-y: auto;
   }
   .content {
-    padding-bottom: 55px;
+    // padding-bottom: 55px;
   }
 }
