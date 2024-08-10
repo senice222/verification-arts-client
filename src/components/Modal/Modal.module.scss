@@ -157,3 +157,10 @@
     margin-left: 15px;
   }
 }
+@media (max-width: 400px) {
+  .long {
+      width: 95vw !important;
+      max-height: 776px;
+      overflow-y: auto;
+  }
+}
