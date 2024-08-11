@@ -313,7 +313,7 @@ const DetailedApplication = () => {
             <div className={styles.log}>
               <h3>Создана заявка №{data.normalId}</h3>
             </div>
-            {data.fileAct.map((item, i) => {
+            {Array.isArray(data.fileAct) && data.fileAct.length > 0 && data.fileAct.map((item, i) => {
               const fileName = item.startsWith('https') ? getFileNameFromUrl(item) : '';
               const fileActExtension = getFileExtension(item);
               const actFile = filesObj[fileActExtension];
@@ -345,7 +345,7 @@ const DetailedApplication = () => {
             <div className={styles.item}>
               <p className={styles.companyName}>Пояснения к заявке</p>
               {
-                data && data.fileExplain.map((item, i) => {
+                Array.isArray(data.fileExplain) && data.fileExplain.length > 0 && data.fileExplain.map((item, i) => {
                   const fileName = item.startsWith('https') ? getFileNameFromUrl(item) : '';
                   const fileActExtension = item.startsWith('https') ? getFileExtension(item) : '';
                   const fileExpl = filesObj[fileActExtension];
