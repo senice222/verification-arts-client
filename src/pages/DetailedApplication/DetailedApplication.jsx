@@ -56,10 +56,6 @@ const DetailedApplication = () => {
   const [isOpened, setOpened] = useState(false);
   const [isCancel, setCancel] = useState(false);
   const [uploads, setUploads] = useState([]);
-  const fileActExtension = data?.fileAct ? getFileExtension(data.fileAct) : "";
-  // const fileExplain = data?.fileExplain
-  //   ? getFileExtension(data.fileExplain)
-  //   : "";
 
   const handleDelete = () => {
     try {
@@ -150,7 +146,6 @@ const DetailedApplication = () => {
     ".pdf": <Pdf />,
     ".docx": <Docs />,
   };
-  const explainFile = <Document />;
   if (!data) return <Loader />;
 
   return (
