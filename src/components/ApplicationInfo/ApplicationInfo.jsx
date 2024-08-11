@@ -6,15 +6,7 @@ import { DatePicker, ConfigProvider, Tooltip } from "antd";
 import ruRU from "antd/es/locale/ru_RU";
 import { Calendar } from '../Svgs/Svgs';
 
-const getFileExtension = (url) => {
-    const pathname = new URL(url).pathname;
-    const ext = pathname.substring(pathname.lastIndexOf("."));
-    return ext;
-};
-
 const ApplicationInfo = ({ data, navigate, dateOnChange }) => {
-    const fileActExtension = data?.fileAct ? getFileExtension(data.fileAct) : "";
-    const fileExplain = data?.fileExplain ? getFileExtension(data.fileExplain) : "";
 
     return (
         <div className={styles.company}>

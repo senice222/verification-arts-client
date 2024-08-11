@@ -85,7 +85,7 @@
                 color: #6941c6;
                 font-size: 16px;
                 font-weight: 600;
-                margin-top: 5px;
+                margin-top: 10px;
             }
             svg {
                 margin-left: 4px;
@@ -231,6 +231,24 @@
     font-weight: 600;
     font-size: 14px;
 }
+.fileInfo {
+    background-color: #FFFFFF;
+    padding: 10px;
+    margin-left: 15px;
+    display: flex;
+    width: 95%;
+    border: 1px solid #E4E7EC;
+    border-radius: 8px 0px 8px 8px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    align-items: center;
+    gap: 15px;
+    p {
+        color: #344054;
+    }
+}
 .firstBlock {
     h2 {
         font-family: 600;
@@ -356,14 +374,16 @@
             color: #344054;
             font-size: 14px;
             font-weight: 500;
+            margin-top: 5px;
             margin-bottom: 5px;
         }
         .document {
             align-items: center;
             display: flex;
             border: 1px solid #d0d5dd;
-            padding: 10px 14px;
+            padding: 10px 10px;
             border-radius: 0 8px 8px 8px;
+            margin-top: 10px;
             div {
                 margin-left: 10px;
                 .actName {
@@ -506,6 +526,22 @@
         path {
             stroke: #f04438;
         }
+    }
+}
+.log {
+    padding: 5px;
+    background-color: #f9fafb;
+    min-height: 36px;
+    border-radius: 8px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    h3 {
+        font-size: 14px;
+        font-weight: 500;
+        color: #475467;
     }
 }
 .deleteDiv {

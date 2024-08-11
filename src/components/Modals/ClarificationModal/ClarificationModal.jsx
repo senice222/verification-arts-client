@@ -36,7 +36,7 @@ const ClarificationModal = ({ data, isOpen, setOpen }) => {
       console.log(e)
     }
   }
-  const isButtonDisabled = !comments.trim() || uploads.every(upload => !upload.uploaded)
+  const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
   return (
     <Modal isOpened={isOpen} setOpen={setOpen} long={true}>
       <h2>Передать заявку на уточнение</h2>
