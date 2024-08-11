@@ -356,18 +356,23 @@ const DetailedApplication = () => {
                   const fileActExtension = item.startsWith('https') ? getFileExtension(item) : '';
                   const fileExpl = filesObj[fileActExtension] ? filesObj[fileActExtension] : <Document />;
                   if (item.startsWith('https')) {
-                    return <div key={i} className={styles.document}>
-                      {fileExpl}
-                      <div>
-                        <p className={styles.actName}>{fileName}</p>
-                        <p
-                          className={styles.download}
-                          onClick={() => window.open(item)}
-                        >
-                          Скачать
-                        </p>
+                    return (
+                      <div key={i} className={styles.item}>
+                        <p className={styles.companyName}>{data.name}</p>
+                        <div className={styles.document}>
+                          {fileExpl}
+                          <div>
+                            <p className={styles.actName}>{fileName}</p>
+                            <p
+                              className={styles.download}
+                              onClick={() => window.open(item)}
+                            >
+                              Скачать
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )
                   }
                 })
               }
@@ -464,15 +469,17 @@ const DetailedApplication = () => {
                 </div>
               )}
             </div>
-            {(data.status === "Отклонена" || data.status === "Рассмотрена") && (
-              <div className={styles.closedDivText}>
-                <img src={notific} alt="/" />
-                <p>Заявка закрыта</p>
-              </div>
-            )}
+            {
+              (data.status === "Отклонена" || data.status === "Рассмотрена") && (
+                <div className={styles.closedDivText}>
+                  <img src={notific} alt="/" />
+                  <p>Заявка закрыта</p>
+                </div>
+              )
+            }
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };
