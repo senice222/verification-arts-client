@@ -77,27 +77,31 @@ const Settings = () => {
               {filteredData &&
                 filteredData.map((item, i) => (
                   <tr key={i}>
-                    <td >
-                     <div className={style.loginDiv}> 
-                    {item.login}
-                     {item.superAdmin && <div className={style.superAdminSign}>
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="6"
-                         height="6"
-                         viewBox="0 0 6 6"
-                         fill="none"
-                       >
-                         <circle cx="3" cy="3" r="3" fill="#9E77ED" />
-                       </svg>
-                       <p>Суперадмин</p>
-                     </div>}
-                     </div>
+                    <td>
+                      <div className={style.loginDiv}>
+                        {item.login}
+                        {item.superAdmin && (
+                          <div className={style.superAdminSign}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="6"
+                              height="6"
+                              viewBox="0 0 6 6"
+                              fill="none"
+                            >
+                              <circle cx="3" cy="3" r="3" fill="#9E77ED" />
+                            </svg>
+                            <p>Суперадмин</p>
+                          </div>
+                        )}
+                      </div>
                     </td>
-                    <td className={style.roles}>
-                      {item.access.map((item, i) => (
-                        <p key={i}>{item}</p>
-                      ))}
+                    <td>
+                      <div className={style.roles}>
+                        {item.access.map((item, i) => (
+                          <p key={i}>{item}</p>
+                        ))}
+                      </div>
                     </td>
                     <td>{item.comment}</td>
                     <td>

@@ -38,6 +38,10 @@
             margin-right: 7px;
         }
     }
+    .finalBtn:disabled {
+        cursor: not-allowed;
+        background-color: gray;
+    }
 }
 .btns {
     width: 100%;

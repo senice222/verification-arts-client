@@ -125,7 +125,7 @@
         border-bottom: 1px solid #ccc;
         color: #101828;
         min-width: 130px;
-        height: 72px;
+        height: 100%;
         div {
             display: flex;
             .next {
@@ -254,7 +254,8 @@
 }
 .roles {
     display: flex;
-    height: 75px !important;
+    height: 100% !important;
+
     align-items: center;
     p {
         margin-left: 5px;
@@ -281,6 +282,13 @@
             font-size: 12px;
             font-weight: 500;
             color: #6941C6;
+        }
+    }
+}
+.container {
+    tbody {
+        tr {
+            height: 72px;
         }
     }
 }

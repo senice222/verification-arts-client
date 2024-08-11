@@ -56,6 +56,7 @@ const DetailedApplication = () => {
   const [isOpened, setOpened] = useState(false);
   const [isCancel, setCancel] = useState(false);
   const [uploads, setUploads] = useState([]);
+  const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
 
   const handleDelete = () => {
     try {
@@ -179,7 +180,7 @@ const DetailedApplication = () => {
             >
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  {data.status === "Рассмотрена" && (
+                  {(data.status === "Рассмотрена" || data.status === "Отклонена") && (
                     <div className={styles.dots}>
                       <Dots />
                     </div>
@@ -294,7 +295,7 @@ const DetailedApplication = () => {
                       placeholder="Введите описание"
                     />
                   </div>
-                  <button className={styles.finalBtn} onClick={handleAnswer}>
+                  <button className={styles.finalBtn} disabled={isButtonDisabled} onClick={handleAnswer}>
                     <ArrowLeft /> Отправить ответ и закрыть заявку
                   </button>
                 </div>
@@ -313,10 +314,13 @@ const DetailedApplication = () => {
             <div className={styles.log}>
               <h3>Создана заявка №{data.normalId}</h3>
             </div>
+            <div className={styles.log}>
+              <h3>Информация по акту:</h3>
+            </div>
             {Array.isArray(data.fileAct) && data.fileAct.length > 0 && data.fileAct.map((item, i) => {
               const fileName = item.startsWith('https') ? getFileNameFromUrl(item) : '';
               const fileActExtension = getFileExtension(item);
-              const actFile = filesObj[fileActExtension];
+              const actFile = filesObj[fileActExtension] ? filesObj[fileActExtension] : <Document />;
 
               return (
                 <div key={i} className={styles.item}>
@@ -326,7 +330,7 @@ const DetailedApplication = () => {
                     <div>
                       {item.startsWith('https') ? (
                         <>
-                          <p className={styles.actName}>Акт: {fileName}</p>
+                          <p className={styles.actName}>{fileName}</p>
                           <p
                             className={styles.download}
                             onClick={() => window.open(item)}
@@ -335,7 +339,7 @@ const DetailedApplication = () => {
                           </p>
                         </>
                       ) : (
-                        <p className={styles.actName}>Акт: {item}</p>
+                        <p className={styles.actName}>{item}</p>
                       )}
                     </div>
                   </div>
@@ -343,35 +347,47 @@ const DetailedApplication = () => {
               );
             })}
             <div className={styles.item}>
-              <p className={styles.companyName}>Пояснения к заявке</p>
+              <div className={styles.log}>
+                <h3>Пояснения к акту:</h3>
+              </div>
               {
                 Array.isArray(data.fileExplain) && data.fileExplain.length > 0 && data.fileExplain.map((item, i) => {
                   const fileName = item.startsWith('https') ? getFileNameFromUrl(item) : '';
                   const fileActExtension = item.startsWith('https') ? getFileExtension(item) : '';
-                  const fileExpl = filesObj[fileActExtension];
-                  return (
-                    <div className={styles.document} key={i}>
-                      {item.startsWith('https') ? (
-                        <>
-                          {fileExpl}
-                          <div>
-                            <p className={styles.actName}>Пояснения: {fileName}</p>
-                            <p
-                              className={styles.download}
-                              onClick={() => window.open(item)}
-                            >
-                              Скачать
-                            </p>
-                          </div>
-                        </>
-                      ) : (
-                        <p className={styles.actName}>Текст: {item}</p>
-                      )}
+                  const fileExpl = filesObj[fileActExtension] ? filesObj[fileActExtension] : <Document />;
+                  if (item.startsWith('https')) {
+                    return <div key={i} className={styles.document}>
+                      {fileExpl}
+                      <div>
+                        <p className={styles.actName}>{fileName}</p>
+                        <p
+                          className={styles.download}
+                          onClick={() => window.open(item)}
+                        >
+                          Скачать
+                        </p>
+                      </div>
                     </div>
-                  );
+                  }
                 })
               }
             </div>
+            {
+              Array.isArray(data.fileExplain) && data.fileExplain.some(item => !item.startsWith('https')) && (
+                <div className={styles.item}>
+                  <div className={styles.log}>
+                    <h3>Дополнительная информация:</h3>
+                  </div>
+                  {
+                    data.fileExplain.filter(item => !item.startsWith('https')).map((item, i) => (
+                      <div key={i} className={styles.document}>
+                        <p className={styles.actName}>{item}</p>
+                      </div>
+                    ))
+                  }
+                </div>
+              )
+            }
             <div className={styles.logs}>
               <div className={styles.logs}>
                 {data && data.history ? (
