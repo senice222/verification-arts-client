@@ -25,7 +25,7 @@ const Companies = () => {
                 }
 
                 acc[application.inn].applicationsCount += 1
-                if (application.status !== 'Рассмотрена') {
+                if (application.status !== 'Рассмотрена' && application.status !== "Отклонена") {
                     acc[application.inn].activeApplicationsCount += 1
                 }
 

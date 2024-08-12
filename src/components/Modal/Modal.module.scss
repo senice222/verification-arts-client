@@ -161,6 +161,13 @@
     margin-left: 15px;
   }
 }
+@media (max-width: 1450px) {
+  .long {
+      padding-bottom: 20px;
+      height: 80% !important;
+  }
+}
+
 @media (max-width: 400px) {
   .long {
     width: 95vw !important;

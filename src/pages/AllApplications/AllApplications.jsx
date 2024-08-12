@@ -102,7 +102,7 @@ const AllApplications = () => {
                             id="demo-simple-select-helper"
                             value={company}
                             label="Компании"
-                            style={{ fontFamily: "Inter", width: "164px" }}
+                            style={{ fontFamily: "Inter", width: "150px" }}
                             onChange={handleChangeCompany}
                         >
                             <MenuItem value="">Все компании</MenuItem>
@@ -118,7 +118,7 @@ const AllApplications = () => {
                         <Select
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
-                            style={{ width: "164px", fontFamily: "Inter" }}
+                            style={{ width: "153px", fontFamily: "Inter" }}
                             value={status}
                             label="Статус"
                             onChange={handleChangeStatus}
