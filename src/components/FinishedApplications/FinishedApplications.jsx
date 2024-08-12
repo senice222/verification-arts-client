@@ -93,6 +93,7 @@ const FinishedApplications = () => {
                       !item.dateAnswer ? (
                         <ConfigProvider locale={ruRU}>
                           <DatePicker
+                            inputReadOnly
                             onClick={(e) => e.stopPropagation()}
                             onChange={(date) => dateOnChange(date, item.owner, item._id)}
                           />

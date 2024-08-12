@@ -161,6 +161,7 @@ const AllApplications = () => {
                                             !application.dateAnswer ? (
                                                 <ConfigProvider locale={ruRU} >
                                                     <DatePicker
+                                                        inputReadOnly
                                                         onClick={(e) => e.stopPropagation()}
                                                         onChange={(date) => dateOnChange(date, application.owner, application._id)}
                                                     />

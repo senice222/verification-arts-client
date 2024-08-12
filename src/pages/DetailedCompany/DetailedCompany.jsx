@@ -143,7 +143,7 @@ const DetailedCompany = () => {
                                             {
                                                 !application.dateAnswer ? (
                                                     <ConfigProvider locale={ruRU}>
-                                                        <DatePicker onChange={(date) => dateOnChange(date, application.owner, application._id)} />
+                                                        <DatePicker inputReadOnly onChange={(date) => dateOnChange(date, application.owner, application._id)} />
                                                     </ConfigProvider>
                                                 ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                     <Calendar />
