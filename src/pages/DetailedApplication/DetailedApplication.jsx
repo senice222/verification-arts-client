@@ -60,6 +60,7 @@ const DetailedApplication = () => {
   const [uploads, setUploads] = useState([]);
   const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
   const admin = useSelector((state) => state.admin.data);
+  const [loading, setLoading] = useState(false)
 
   const disabledDate = (current) => {
     return current && current < moment().startOf('day');
@@ -131,6 +132,7 @@ const DetailedApplication = () => {
     });
 
     try {
+      setLoading(true)
       await $api.put(`/application/reviewed/${data.owner}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -142,6 +144,7 @@ const DetailedApplication = () => {
         duration: 1.5,
         style: { fontFamily: "Inter" },
       });
+      setLoading(false)
     } catch (e) {
       console.error("Upload failed:", e);
       notification.error({
@@ -306,7 +309,7 @@ const DetailedApplication = () => {
                     />
                   </div>
                   <button className={styles.finalBtn} disabled={isButtonDisabled} onClick={handleAnswer}>
-                    <ArrowLeft /> Отправить ответ и закрыть заявку
+                    {loading ? <p>Загрузка..</p> : <p><ArrowLeft /> Отправить ответ и закрыть заявку</p>}
                   </button>
                 </div>
               </>
