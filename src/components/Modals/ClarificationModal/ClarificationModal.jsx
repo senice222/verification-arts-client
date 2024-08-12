@@ -38,7 +38,7 @@ const ClarificationModal = ({ data, isOpen, setOpen }) => {
   }
   const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
   return (
-    <Modal isOpened={isOpen} setOpen={setOpen} long={true}>
+    <Modal isOpened={isOpen} height={"auto"} setOpen={setOpen} long={true}>
       <h2>Передать заявку на уточнение</h2>
       <p>Клиенту будет предложено дополнить заявку - текстом и файлами.</p>
       <div className={s.firstBlock}>
