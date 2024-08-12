@@ -35,7 +35,7 @@ const CancelModal = ({ id, productId, isOpened, setOpened }) => {
       <div className={s.firstBlock}>
         <div className={s.textareaDiv}>
           <h2>Комментарий <span>*</span></h2>
-          <textarea value={comments} onChange={(e) => setComments(e.target.value)} placeholder={"Введите причину"} />
+          <textarea maxLength={4096} value={comments} onChange={(e) => setComments(e.target.value)} placeholder={"Введите причину"} />
         </div>
         <div className={s.btns}>
           <button className={s.whiteBtn} onClick={() => setOpened(false)}>Закрыть</button>

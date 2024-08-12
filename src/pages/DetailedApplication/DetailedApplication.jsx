@@ -290,6 +290,7 @@ const DetailedApplication = () => {
                   <div className={styles.textareaDiv}>
                     <h2>Комментарий</h2>
                     <textarea
+                      maxLength={4096}
                       value={comments}
                       onChange={(e) => setComments(e.target.value)}
                       placeholder="Введите описание"
