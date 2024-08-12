@@ -21,7 +21,7 @@ const DetailedCompany = () => {
     const navigate = useNavigate()
     const disabledDate = (current) => {
         return current && current < moment().startOf('day');
-      };
+    };
     const handleChange = (value) => {
         setSelectedStatus(value);
     };
@@ -142,12 +142,20 @@ const DetailedCompany = () => {
                                     <td>{application.name}<br /> <span>ИНН {application.inn}</span></td>
                                     <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
                                     <td className={style.flexEnd}>
-                                        <div onClick={(e) => e.stopPropagation()}>
+                                        <div>
                                             {
                                                 !application.dateAnswer ? (
-                                                    <ConfigProvider locale={ruRU}>
-                                                        <DatePicker disabledDate={disabledDate} inputReadOnly onChange={(date) => dateOnChange(date, application.owner, application._id)} />
-                                                    </ConfigProvider>
+                                                    <div onClick={(e) => e.stopPropagation()}>
+                                                        <ConfigProvider locale={ruRU} >
+                                                            <DatePicker
+                                                                disabledDate={disabledDate}
+
+                                                                inputReadOnly
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                onChange={(date) => dateOnChange(date, application.owner, application._id)}
+                                                            />
+                                                        </ConfigProvider>
+                                                    </div>
                                                 ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                     <Calendar />
                                                     {application.dateAnswer}

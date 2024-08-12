@@ -30,6 +30,7 @@ import Clarifications from "./Clarification/Clarification";
 import HighlightedText from "./HighlightedText/HighlightedText";
 import { Tooltip } from 'antd'
 import moment from 'moment'
+import { useSelector } from "react-redux";
 
 const getFileExtension = (url) => {
   const pathname = new URL(url).pathname;
@@ -58,10 +59,12 @@ const DetailedApplication = () => {
   const [isCancel, setCancel] = useState(false);
   const [uploads, setUploads] = useState([]);
   const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
+  const admin = useSelector((state) => state.admin.data);
+
   const disabledDate = (current) => {
     return current && current < moment().startOf('day');
   };
-  
+
   const handleDelete = () => {
     try {
       mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
@@ -121,6 +124,7 @@ const DetailedApplication = () => {
     const formData = new FormData();
     formData.append("_id", data._id);
     formData.append("comments", comments);
+    formData.append("admin", admin.login);
     formData.append("status", "Рассмотрена");
     uploads.forEach((file) => {
       formData.append("files", file.file);
