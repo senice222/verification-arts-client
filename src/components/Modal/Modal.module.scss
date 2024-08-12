@@ -13,7 +13,6 @@
   opacity: 0;
   pointer-events: none;
   transition: 0.3s all;
-  
 }
 .activeBg {
   pointer-events: all;
@@ -163,8 +162,9 @@
 }
 @media (max-width: 1450px) {
   .long {
-      padding-bottom: 20px;
-      height: 80% !important;
+    padding-bottom: 20px;
+    height: 80% !important;
+    overflow-y: auto;
   }
 }
 
