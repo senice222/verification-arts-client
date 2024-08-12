@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { fetcher, url } from '../../core/axios';
 import { Tooltip } from 'antd'
+import moment from 'moment';
 
 const ActiveApplications = () => {
   const [status, setStatus] = useState('')
@@ -19,7 +20,9 @@ const ActiveApplications = () => {
   const { mutate } = useSWRConfig()
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
-
+  const disabledDate = (current) => {
+    return current && current < moment().startOf('day');
+  };
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
   };
@@ -123,12 +126,16 @@ const ActiveApplications = () => {
                   <div>
                     {
                       !application.dateAnswer ? (
-                        <ConfigProvider locale={ruRU} >
-                          <DatePicker
-                            onClick={(e) => e.stopPropagation()}
-                            onChange={(date) => dateOnChange(date, application.owner, application._id)}
-                          />
-                        </ConfigProvider>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <ConfigProvider locale={ruRU} >
+                            <DatePicker
+                              disabledDate={disabledDate}
+                              inputReadOnly
+                              onClick={(e) => e.stopPropagation()}
+                              onChange={(date) => dateOnChange(date, application.owner, application._id)}
+                            />
+                          </ConfigProvider>
+                        </div>
                       ) : <Tooltip title="Дата уже выставлена" placement="bottom">
                         <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                           <Calendar />

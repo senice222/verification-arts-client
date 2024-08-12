@@ -8,13 +8,16 @@ import { useState } from 'react';
 import Loader from '../Loader/Loader';
 import { Calendar } from '../../pages/DetailedApplication/Svgs';
 import { Tooltip } from 'antd'
+import moment from 'moment';
 
 const FinishedApplications = () => {
   const { data } = useSWR(`${url}/application/getAll`, fetcher);
   const { mutate } = useSWRConfig()
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
-
+  const disabledDate = (current) => {
+    return current && current < moment().startOf('day');
+  };
   const filteredData = Array.isArray(data) ? (
     data.filter((application) => {
       const statusMatch = application.status === "Рассмотрена" || application.status === "Отклонена";
@@ -91,13 +94,17 @@ const FinishedApplications = () => {
                   <div>
                     {
                       !item.dateAnswer ? (
-                        <ConfigProvider locale={ruRU}>
-                          <DatePicker
-                            inputReadOnly
-                            onClick={(e) => e.stopPropagation()}
-                            onChange={(date) => dateOnChange(date, item.owner, item._id)}
-                          />
-                        </ConfigProvider>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <ConfigProvider locale={ruRU} >
+                            <DatePicker
+                              disabledDate={disabledDate}
+
+                              inputReadOnly
+                              onClick={(e) => e.stopPropagation()}
+                              onChange={(date) => dateOnChange(date, item.owner, item._id)}
+                            />
+                          </ConfigProvider>
+                        </div>
                       ) : <Tooltip title="Дата уже выставлена" placement="bottom">
                         <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                           <Calendar />

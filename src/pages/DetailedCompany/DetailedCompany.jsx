@@ -9,6 +9,7 @@ import { fetcher, url } from '../../core/axios';
 import Loader from '../../components/Loader/Loader';
 import { Calendar } from '../../components/Svgs/Svgs';
 import { useState } from 'react';
+import moment from 'moment';
 
 const DetailedCompany = () => {
     const { inn } = useParams()
@@ -18,7 +19,9 @@ const DetailedCompany = () => {
     const activeApplications = data?.filter(item => item.status !== "Рассмотрена" && item.status !== "Отклонена")
     const { mutate } = useSWRConfig()
     const navigate = useNavigate()
-
+    const disabledDate = (current) => {
+        return current && current < moment().startOf('day');
+      };
     const handleChange = (value) => {
         setSelectedStatus(value);
     };
@@ -139,11 +142,11 @@ const DetailedCompany = () => {
                                     <td>{application.name}<br /> <span>ИНН {application.inn}</span></td>
                                     <td className={style.flexEnd}><span className={statusStyles[application.status]}>{application.status}</span></td>
                                     <td className={style.flexEnd}>
-                                        <div>
+                                        <div onClick={(e) => e.stopPropagation()}>
                                             {
                                                 !application.dateAnswer ? (
                                                     <ConfigProvider locale={ruRU}>
-                                                        <DatePicker inputReadOnly onChange={(date) => dateOnChange(date, application.owner, application._id)} />
+                                                        <DatePicker disabledDate={disabledDate} inputReadOnly onChange={(date) => dateOnChange(date, application.owner, application._id)} />
                                                     </ConfigProvider>
                                                 ) : <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                     <Calendar />

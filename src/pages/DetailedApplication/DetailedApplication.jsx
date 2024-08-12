@@ -29,6 +29,7 @@ import notific from "../../assets/Screenshot_3.png";
 import Clarifications from "./Clarification/Clarification";
 import HighlightedText from "./HighlightedText/HighlightedText";
 import { Tooltip } from 'antd'
+import moment from 'moment'
 
 const getFileExtension = (url) => {
   const pathname = new URL(url).pathname;
@@ -57,7 +58,10 @@ const DetailedApplication = () => {
   const [isCancel, setCancel] = useState(false);
   const [uploads, setUploads] = useState([]);
   const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
-
+  const disabledDate = (current) => {
+    return current && current < moment().startOf('day');
+  };
+  
   const handleDelete = () => {
     try {
       mutate(`${url}/application/getAll`, fetcher(`${url}/application/delete/${data.owner}`, {
@@ -246,6 +250,7 @@ const DetailedApplication = () => {
                   <ConfigProvider locale={ruRU}>
                     <DatePicker
                       inputReadOnly
+                      disabledDate={disabledDate}
                       onChange={(date) =>
                         dateOnChange(date, data.owner, data._id)
                       }

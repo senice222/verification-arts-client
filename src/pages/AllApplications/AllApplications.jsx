@@ -159,13 +159,15 @@ const AllApplications = () => {
                                     <div>
                                         {
                                             !application.dateAnswer ? (
-                                                <ConfigProvider locale={ruRU} >
-                                                    <DatePicker
-                                                        inputReadOnly
-                                                        onClick={(e) => e.stopPropagation()}
-                                                        onChange={(date) => dateOnChange(date, application.owner, application._id)}
-                                                    />
-                                                </ConfigProvider>
+                                                <div onClick={(e) => e.stopPropagation()}>
+                                                    <ConfigProvider locale={ruRU} >
+                                                        <DatePicker
+                                                            inputReadOnly
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            onChange={(date) => dateOnChange(date, application.owner, application._id)}
+                                                        />
+                                                    </ConfigProvider>
+                                                </div>
                                             ) : <Tooltip title="Дата уже выставлена" placement="bottom">
                                                 <button className={style.btnDate} onClick={(e) => e.stopPropagation()}>
                                                     <Calendar />
