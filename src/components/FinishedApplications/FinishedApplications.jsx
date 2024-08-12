@@ -15,15 +15,16 @@ const FinishedApplications = () => {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredData = data?.filter((application) => {
-    const statusMatch = application.status === "Рассмотрена" || application.status === "Отклонена";
-    const searchTermLower = searchTerm.toLowerCase();
-    const normalIdMatch = application.normalId?.toString().includes(searchTermLower);
-    const innMatch = application.inn?.toLowerCase().includes(searchTermLower);
-    const companyNameMatch = application.name?.toLowerCase().includes(searchTermLower);
+  const filteredData = Array.isArray(data) ? (
+    data.filter((application) => {
+      const statusMatch = application.status === "Рассмотрена" || application.status === "Отклонена";
+      const searchTermLower = searchTerm.toLowerCase();
+      const normalIdMatch = application.normalId?.toString().includes(searchTermLower);
+      const innMatch = application.inn?.toLowerCase().includes(searchTermLower);
+      const companyNameMatch = application.name?.toLowerCase().includes(searchTermLower);
 
-    return statusMatch && (normalIdMatch || innMatch || companyNameMatch);
-  });
+      return statusMatch && (normalIdMatch || innMatch || companyNameMatch);
+    })) : [];
 
   const dateOnChange = (date, id, _id) => {
     try {

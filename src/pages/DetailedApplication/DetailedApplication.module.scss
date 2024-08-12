@@ -431,13 +431,14 @@
     padding: 10px;
     margin-left: 15px;
     width: 95%;
-    height: 44px;
+    // height: 44px;
     border-radius: 8px 0px 8px 8px;
     color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 400;
     h3 {
+        word-break: break-all;
         font-weight: 400;
         font-size: 16px;
         span {
