@@ -13,7 +13,6 @@ const Clarifications = ({ clarificationsAnswer }) => {
         ".pdf": <Pdf />,
         ".docx": <Docs />
     }
-    console.log(clarificationsAnswer)
     return (
         <div style={{width: "100%", textAlign: "left"}}>
             <div className={styles.textClarification}>

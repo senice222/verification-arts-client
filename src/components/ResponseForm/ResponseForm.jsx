@@ -3,14 +3,26 @@ import UploadButton from "../../pages/DetailedApplication/UploadButton/UploadBut
 import { Pencil } from "../Svgs/Svgs";
 import styles from '../../pages/DetailedApplication/DetailedApplication.module.scss';
 
-const ResponseForm = ({ status, comments, setComments, uploads, setUploads, handleAnswer, setOpened, setCancel }) => {
+const ResponseForm = ({
+    data,
+    setOpened,
+    setCancel,
+    uploads,
+    setUploads,
+    comments,
+    setComments,
+    handleAnswer,
+    loading,
+}) => {
     const isButtonDisabled = !(uploads.length > 0 && uploads.some(upload => upload.uploaded)) && comments.trim() === '';
 
     return (
         <div className={styles.report}>
             <h2>Отправить ответ</h2>
             <hr />
-            {status !== "Отклонена" && status !== "Рассмотрена" && status !== "На уточнении" ? (
+            {data.status !== "Отклонена" &&
+                data.status !== "Рассмотрена" &&
+                data.status !== "На уточнении" ? (
                 <>
                     <div className={styles.btns}>
                         <button onClick={() => setOpened(true)} className={styles.whiteBtn}>
@@ -25,20 +37,27 @@ const ResponseForm = ({ status, comments, setComments, uploads, setUploads, hand
                         <div className={styles.textareaDiv}>
                             <h2>Комментарий</h2>
                             <textarea
+                                maxLength={4096}
                                 value={comments}
                                 onChange={(e) => setComments(e.target.value)}
                                 placeholder="Введите описание"
                             />
                         </div>
-                        <button className={styles.finalBtn} onClick={handleAnswer} disabled={isButtonDisabled}>
-                            <ArrowLeft /> Отправить ответ и закрыть заявку
+                        <button
+                            className={styles.finalBtn}
+                            disabled={isButtonDisabled}
+                            onClick={handleAnswer}
+                        >
+                            {loading ? <p>Загрузка..</p> : <p><ArrowLeft /> Отправить ответ и закрыть заявку</p>}
                         </button>
                     </div>
                 </>
             ) : (
                 <button className={styles.cancelledBtn}>
                     <ArrowLeft />
-                    {status === "На уточнении" ? "Заявка на уточнении" : "Заявка закрыта"}
+                    {data.status === "На уточнении"
+                        ? "Заявка на уточнении"
+                        : "Заявка закрыта"}
                 </button>
             )}
         </div>
