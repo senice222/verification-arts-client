@@ -1,3 +1,4 @@
+import { url } from '../../core/axios';
 import Clarifications from '../../pages/DetailedApplication/Clarification/Clarification';
 import styles from '../../pages/DetailedApplication/DetailedApplication.module.scss';
 import HighlightedText from '../../pages/DetailedApplication/HighlightedText/HighlightedText';
@@ -34,7 +35,7 @@ const HistoryLog = ({ data }) => {
             <div className={styles.fileList} style={{ marginLeft: "15px", marginTop: "10px" }}>
               {item.fileUrls.map((fileUrl, fileIndex) => (
                 <div key={fileIndex} className={styles.fileItem}>
-                  <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={`${url}/api/uploads/${fileUrl}`} download>
                     <Document />
                     <div className={styles.fileName}>Файл {fileIndex + 1}</div>
                   </a>
