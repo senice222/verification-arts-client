@@ -34,7 +34,7 @@ const ExplanationInfo = ({ data, filesObj }) => {
                         <div className={styles.document}>
                             {fileExpl}
                             <div>
-                                <p className={styles.actName}>{fileName}</p>
+                                <p className={styles.actName}>{fileName.split("@")[1]}</p>
                                 <p className={styles.download} onClick={() => window.open(item)}>Скачать</p>
                             </div>
                         </div>
