@@ -22,6 +22,40 @@ const AllApplications = () => {
     const navigate = useNavigate()
     const query = new URLSearchParams(location.search);
     const filterInn = query.get('inn');
+    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState('');
+
+    const months = [
+        { value: 0, label: 'Январь' },
+        { value: 1, label: 'Февраль' },
+        { value: 2, label: 'Март' },
+        { value: 3, label: 'Апрель' },
+        { value: 4, label: 'Май' },
+        { value: 5, label: 'Июнь' },
+        { value: 6, label: 'Июль' },
+        { value: 7, label: 'Август' },
+        { value: 8, label: 'Сентябрь' },
+        { value: 9, label: 'Октябрь' },
+        { value: 10, label: 'Ноябрь' },
+        { value: 11, label: 'Декабрь' }
+    ];
+
+    function generateYearSequence(start, end) {
+        const years = [];
+        for (let year = start; year <= end; year++) {
+            years.push(year.toString());
+        }
+        return years;
+    }
+    const years = [...generateYearSequence(2024, new Date().getFullYear())];
+
+    const handleYearChange = (event) => {
+        setSelectedYear(event.target.value);
+    };
+
+    const handleMonthChange = (event) => {
+        setSelectedMonth(event.target.value);
+    };
 
     useEffect(() => {
         if (filterInn) {
@@ -37,17 +71,25 @@ const AllApplications = () => {
     };
 
     const filteredData = Array.isArray(data) ? (
-        data.filter((application) => {
-            const statusMatch = status ? application.status === status : true;
-            const companyMatch = company ? application.name === company : true;
-            const searchMatch = searchInput ? (
-                application.normalId.toString().includes(searchInput.toLowerCase()) ||
-                application.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-                application.inn.toLowerCase().includes(searchInput.toLowerCase())
-            ) : true;
-            return statusMatch && companyMatch && searchMatch;
-        })
+        data
+            .filter((application) => {
+                const statusMatch = status ? application.status === status : true;
+                const companyMatch = company ? application.name === company : true;
+                const searchMatch = searchInput ? (
+                    application.normalId.toString().includes(searchInput.toLowerCase()) ||
+                    application.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+                    application.inn.toLowerCase().includes(searchInput.toLowerCase())
+                ) : true;
+
+                const date = new Date(application.createdAt);
+                const yearMatch = selectedYear ? date.getFullYear() === parseInt(selectedYear) : true;
+                const monthMatch = selectedMonth ? date.getMonth() === parseInt(selectedMonth) : true;
+
+                return statusMatch && companyMatch && searchMatch && yearMatch && monthMatch;
+            })
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
     ) : [];
+
 
     const dateOnChange = (date, id, _id) => {
         try {
@@ -126,6 +168,38 @@ const AllApplications = () => {
                             <MenuItem value="">Все статусы</MenuItem>
                             {statuses.map((item, i) => (
                                 <MenuItem key={i} style={{ fontFamily: "Inter" }} value={item.value}>{item.value}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-helper-label" style={{ fontFamily: "Inter" }}>Год</InputLabel>
+                        <Select
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                            label="Выберите год"
+                            style={{ fontFamily: "Inter", width: "150px" }}
+                        >
+                            <MenuItem value="">Все года</MenuItem>
+                            {years.map((year, i) => (
+                                <MenuItem key={i} value={year}>
+                                    {year}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-helper-label" style={{ fontFamily: "Inter" }}>Месяц</InputLabel>
+                        <Select
+                            value={selectedMonth}
+                            onChange={handleMonthChange}
+                            label="Выберите месяц"
+                            style={{ fontFamily: "Inter", width: "150px" }}
+                        >
+                            <MenuItem value="">Все месяцы</MenuItem>
+                            {months.map((month, i) => (
+                                <MenuItem key={i} value={month.value}>
+                                    {month.label}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
