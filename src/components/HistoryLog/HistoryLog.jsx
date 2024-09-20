@@ -35,7 +35,7 @@ const HistoryLog = ({ data }) => {
             <div className={styles.fileList} style={{ marginLeft: "15px", marginTop: "10px" }}>
               {item.fileUrls.map((fileUrl, fileIndex) => (
                 <div key={fileIndex} className={styles.fileItem}>
-                  <a href={`${url}/api/uploads/${fileUrl}`} download>
+                  <a href={`${url}/uploads/${fileUrl}`} download>
                     <Document />
                     <div className={styles.fileName}>Файл {fileIndex + 1}</div>
                   </a>

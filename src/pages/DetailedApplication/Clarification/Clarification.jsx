@@ -29,7 +29,7 @@ const Clarifications = ({ clarificationsAnswer }) => {
                                 {Icon}
                                 <div>
                                     <p>{`Файл уточнения ${fileIndex + 1}${fileExtension}`}</p>
-                                    <a href={`${url}/api/uploads/${file}`} download>Скачать</a>
+                                    <a href={`${url}/uploads/${file}`} download>Скачать</a>
                                 </div>
                             </div>
                         );
