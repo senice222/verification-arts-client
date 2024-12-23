@@ -89,6 +89,10 @@ function PlatformPopup({ }) {
                             <div className={styles.activeCircle} />
                         </div>
                     </div>}
+                    <div className={styles.settings} onClick={() => window.open(`${CreditUrl}/settings-access`, "_self")}>
+                        <div className={styles.settingsIcon}>⚙️</div>
+                        <span>Настройки доступа</span>
+                    </div>
                 
                 </div>
             )}
