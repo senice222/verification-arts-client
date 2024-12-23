@@ -10,6 +10,7 @@ export const fetchAuth = createAsyncThunk('user/fetchAdminData', async (params) 
     try {
         const {data} = await axios.post('admin/login', params)
         localStorage.setItem("token", data.token)
+        
         return data.admin
     } catch (e) {
         return e.response.data.message

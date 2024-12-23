@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// export const url = '';
 export const url = 'https://consultantnlgpanel.ru/api';
 const $api = axios.create({
     baseURL: url,

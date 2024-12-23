@@ -9,6 +9,7 @@ import { Cross } from '../../../components/Modal/Svgs'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../../store/slices/Admin.slice'
 import Loader from "../../Loader/Loader";
+import PlatformPopup from "../PlatformPopup/PlatformPopup";
 
 const NavBarItem = ({ Svg, text, path, setActive }) => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const NavBar = ({ isActive, setActive }) => {
   const dispatch = useDispatch();
 
   const admin = useSelector((state) => state.admin.data);
-  if (!admin) return <Loader />
+  if (!admin) return null
 
   return (
     <div
@@ -65,10 +66,10 @@ const NavBar = ({ isActive, setActive }) => {
     >
       <div className={`${styles.NavBar} ${isActive ? styles.active2 : ""}`}>
         <div>
-          <h1>Панель актов</h1>
+          <PlatformPopup admin={admin} />
           <div className={styles.items}>
 
-            {admin.access.includes('Заявки') && <NavBarItemOpenAble setActive={setActive} />}
+            {admin.access.includes('Почта') && <NavBarItemOpenAble setActive={setActive} />}
             {admin.access.includes('Заявки') && <NavBarItem
               setActive={setActive}
               Svg={<DocumentSvg />}
@@ -84,16 +85,7 @@ const NavBar = ({ isActive, setActive }) => {
           </div>
         </div>
         <div className={styles.settings}>
-          {admin.superAdmin && <div
-            className={styles.itemSettings}
-            onClick={() => {
-              navigate("/settings")
-              setActive(false)
-            }}
-          >
-            <img src={settings} alt={"/"} />
-            <p className={styles.settingsText}>Настройки ролей</p>
-          </div>}
+
 
           <div className={styles.admin}>
             <div className={styles.circle}>
@@ -106,7 +98,7 @@ const NavBar = ({ isActive, setActive }) => {
               </div>
               <img onClick={() => {
                 dispatch(logout())
-                navigate("/login")
+                navigate("/notAllowed")
               }} src={logout1} alt={"/"} />
             </div>
           </div>

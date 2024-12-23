@@ -22,7 +22,7 @@ const PanelLayout = () => {
 
   useEffect(() => {
     if (!admin.data && !admin.loading) {
-      navigate("/login");
+      navigate("/notAllowed");
     }
   }, [admin]);
   useAccessControl(admin)

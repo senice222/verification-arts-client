@@ -18,7 +18,26 @@ export const ArrowDown = () => {
 
     )
 }
+export const ChevronIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={20}
+            height={20}
+            viewBox="0 0 20 20"
+            fill="none"
+        >
+            <path
+                d="M5.83325 12.5002L9.99992 16.6668L14.1666 12.5002M5.83325 7.50016L9.99992 3.3335L14.1666 7.50016"
+                stroke="#A4A7AE"
+                strokeWidth="1.67"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
 
+    )
+}
 export const Trash = () => {
     return (
         <svg

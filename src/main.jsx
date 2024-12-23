@@ -18,7 +18,7 @@ import Settings from "./pages/Settings/Settings.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/login/:transferString",
     element: <Login />,
   },
   {
@@ -41,10 +41,10 @@ const router = createBrowserRouter([
         path: "/companies",
         element: <Companies />,
       },
-      {
-        path: "/settings",
-        element: <Settings />,
-      },
+      // {
+      //   path: "/settings",
+      //   element: <Settings />,
+      // },
       {
         path: "/companies/:inn",
         element: <DetailedCompany />,
