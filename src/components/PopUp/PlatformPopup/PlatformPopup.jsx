@@ -53,7 +53,7 @@ function PlatformPopup({ }) {
             </div>
             {(isOpen || isAnimating) && (
                 <div className={`${styles.popupMenu} ${isAnimating ? styles.closing : ''}`}>
-                    {admin.data.modulesAccess.includes('Акты') && <div
+                    {admin.data.modulesAccess.includes('Акты') || admin.data.superAdmin && <div
                         className={`${styles.popupMenuItem} ${activeModule === 'Акты' ? styles.active : ''}`}
                         onClick={() => handleModuleChange('Акты')}
                     >
@@ -65,7 +65,7 @@ function PlatformPopup({ }) {
                             <div className={styles.activeCircle} />
                         </div>
                     </div>}
-                    {admin.data.modulesAccess.includes('Требования') && <div
+                    {admin.data.modulesAccess.includes('Требования') || admin.data.superAdmin && <div
                         className={`${styles.popupMenuItem} ${activeModule === 'Требования' ? styles.active : ''}`}
                         onClick={() => handleModuleChange('Требования')}
                     >
@@ -77,7 +77,7 @@ function PlatformPopup({ }) {
                             <div className={styles.activeCircle} />
                         </div>
                     </div>}
-                    {admin.data.modulesAccess.includes('Кредиторка') && <div
+                    {admin.data.modulesAccess.includes('Кредиторка') || admin.data.superAdmin && <div
                         className={`${styles.popupMenuItem} ${activeModule === 'Кредиторка' ? styles.active : ''}`}
                         onClick={() => handleModuleChange('Кредиторка')}
                     >
